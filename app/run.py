@@ -11,4 +11,5 @@ if __name__ == "__main__":
     app = create_app()
     app.config['DEBUG'] = True
     app.config['MONGO_URI'] = os.getenv('MONGODB_URI_DEV')
+    app.config['MONGO_URI'] = os.getenv('MONGODB_URI_DEV')
     app.run()
