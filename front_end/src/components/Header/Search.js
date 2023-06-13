@@ -1,7 +1,7 @@
 import React from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 
-export default function Search({ handleChange, value }) {
+export default function Search({ handleChange, searchTerm }) {
 	return (
 		<div className="flex flex-1 justify-start lg:justify-start">
 			<div className="w-full max-w-lg lg:max-w-xs">
@@ -19,7 +19,7 @@ export default function Search({ handleChange, value }) {
 						placeholder="Search"
 						type="search"
 						onChange={handleChange}
-						value={value}
+						value={searchTerm}
 					/>
 				</div>
 			</div>

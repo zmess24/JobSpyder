@@ -26,5 +26,5 @@ def get_db():
 db = LocalProxy(get_db)
 
 def get_companies():
-    results = db.companies.find({})
+    results = db.companies.find({}).sort( "name", 1)
     return list(results)
