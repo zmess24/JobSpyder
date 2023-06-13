@@ -26,5 +26,5 @@ def get_db():
 db = LocalProxy(get_db)
 
 def get_companies():
-    results = db.companies.find({}).limit(100)
+    results = db.companies.find({})
     return list(results)
