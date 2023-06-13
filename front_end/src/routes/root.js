@@ -1,6 +1,5 @@
 // Importing modules
 import React, { useState, useEffect } from "react";
-import Layout from "../components/Layout";
 import CompanyList from "../components/CompanyList";
 import axios from "axios";
 import { useLoaderData, useNavigation } from "react-router-dom";
@@ -29,15 +28,5 @@ export default function Root() {
 	const { companies } = useLoaderData();
 	const navigation = useNavigation();
 
-	return (
-		<>
-			<CompanyList companies={companies} />
-			<ul>
-				{companies.length > 0 &&
-					companies.map((company) => {
-						return <li key={company._id}>{company.name}</li>;
-					})}
-			</ul>
-		</>
-	);
+	return <CompanyList companies={companies} />;
 }
