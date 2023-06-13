@@ -19,6 +19,10 @@ export async function loader() {
 			await localforage.setItem("jobspyder_last_update", today_date);
 			return { companies: res.data.companies };
 		}
+		// let res = await axios.get("/api/v1/companies/");
+		// await localforage.setItem("jobspyder_companies", res.data.companies);
+		// await localforage.setItem("jobspyder_last_update", today_date);
+		// return { companies: res.data.companies };
 	} catch (err) {
 		console.error();
 	}
