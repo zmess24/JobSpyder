@@ -4,12 +4,12 @@ import { Routes, Route, createRoutesFromElements, createBrowserRouter } from "re
 import Companies, { loader as companiesLoader } from "./routes/Companies";
 import Roles, { loader as rolesLoader } from "./routes/Roles";
 import Company from "./routes/Companies/Company";
-import Layout from "./components/Layout";
+import NavLayout from "./components/Layout/NavLayout";
 import ErrorPage from "./error-page";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
-		<Route element={<Layout />} errorElement={<ErrorPage />}>
+		<Route element={<NavLayout />} errorElement={<ErrorPage />}>
 			<Route path="/" element={<Companies />} loader={companiesLoader} />
 			<Route path="/companies" element={<Companies />} loader={companiesLoader} />
 			<Route path="/companies/:companyId" element={<Company />} />

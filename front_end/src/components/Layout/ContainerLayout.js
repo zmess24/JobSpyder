@@ -1,34 +1,34 @@
 import React, { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import RoleItem from "./RoleItem";
-import Header from "../../components/Header";
+import Header from "../Header";
 
-export default function RolesList({ data }) {
+export default function ContainerLayout({ data }) {
 	const INFINITE_SCROLL_STEP = 24;
+	const [allData] = useState(data);
+
 	// Search State Varibles
 	const [searchResults, setSearchResults] = useState([]);
 	const [searchIndex, setSearchIndex] = useState(INFINITE_SCROLL_STEP);
 	const [searchScroll, setSearchScroll] = useState(true);
+	const [searchTerm, setSearchTerm] = useState("");
+
 	// Infinite Scroll State Variables
-	const [allRoles] = useState(data);
 	const [index, setIndex] = useState(INFINITE_SCROLL_STEP);
 	const [scroll, setScroll] = useState(true);
-
-	const [roles, setRoles] = useState(data.slice(0, INFINITE_SCROLL_STEP));
-	const [searchTerm, setSearchTerm] = useState("");
+	const [dataToRender, setDataToRender] = useState(data.slice(0, INFINITE_SCROLL_STEP));
 
 	const loadRoles = () => {
 		setIndex(index + INFINITE_SCROLL_STEP);
-		let roleList = allRoles.slice(0, index + INFINITE_SCROLL_STEP);
-		setRoles(roleList);
-		if (roleList.length === allRoles.length) setScroll(false);
+		let dataToRenderList = allData.slice(0, index + INFINITE_SCROLL_STEP);
+		setDataToRender(dataToRenderList);
+		if (dataToRenderList.length === allData.length) setScroll(false);
 	};
 
 	const loadSearchResults = () => {
 		setSearchIndex(searchIndex + INFINITE_SCROLL_STEP);
-		let roleList = searchResults.slice(0, searchIndex + INFINITE_SCROLL_STEP);
-		setRoles(roleList);
-		if (roleList.length === searchResults.length) setSearchScroll(false);
+		let dataToRenderList = searchResults.slice(0, searchIndex + INFINITE_SCROLL_STEP);
+		setDataToRender(dataToRenderList);
+		if (dataToRenderList.length === searchResults.length) setSearchScroll(false);
 	};
 
 	const handleSearchTermChange = (e) => {
@@ -37,7 +37,7 @@ export default function RolesList({ data }) {
 		if (e.target.value == "") {
 			setSearchResults([]);
 			setSearchIndex(INFINITE_SCROLL_STEP);
-			setRoles(data.slice(0, index));
+			setDataToRender(data.slice(0, index));
 		} else {
 			let formatted_search = e.target.value.toLowerCase().replace(" ", "");
 
@@ -50,7 +50,7 @@ export default function RolesList({ data }) {
 				return res;
 			};
 
-			let arrays = sliceIntoChunks(allRoles, 100);
+			let arrays = sliceIntoChunks(allData, 100);
 
 			let arrayRef = [];
 
@@ -63,7 +63,7 @@ export default function RolesList({ data }) {
 				arrayRef = arrayRef.concat(results);
 			});
 
-			setRoles(arrayRef.slice(0, INFINITE_SCROLL_STEP));
+			setDataToRender(arrayRef.slice(0, INFINITE_SCROLL_STEP));
 			setSearchResults(arrayRef);
 		}
 	};
@@ -71,16 +71,16 @@ export default function RolesList({ data }) {
 	let nextLoader = searchTerm ? loadSearchResults : loadRoles;
 	let scrollState = searchTerm ? searchScroll : scroll;
 	return (
-		<section className="pb-10">
+		<>
 			<Header search={{ handleSearchTermChange, searchTerm }} />
-			<InfiniteScroll dataLength={roles.length} next={nextLoader} hasMore={scrollState} loader={<p>Loading...</p>} endMessage={<span></span>}>
+			<InfiniteScroll dataLength={dataToRender.length} next={nextLoader} hasMore={scrollState} loader={<p>Loading...</p>}>
 				<ul role="list" className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-					{roles &&
-						roles.map((role) => {
+					{dataToRender &&
+						dataToRender.map((role) => {
 							return <RoleItem role={role} />;
 						})}
 				</ul>
 			</InfiniteScroll>
-		</section>
+		</>
 	);
 }
