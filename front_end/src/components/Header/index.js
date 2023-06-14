@@ -1,12 +1,12 @@
 import React from "react";
 import Search from "./Search";
-import CategoryFilter from "./CategoryFitler";
+import ListPreference from "./ListPreference";
 
 export default function Header({ search }) {
 	return (
-		<header className="w-full">
+		<header className="w-full mb-5">
 			<Search handleChange={search.handleSearchTermChange} searchTerm={search.searchTerm} />
-			{/* <CategoryFilter /> */}
+			{/* <ListPreference /> */}
 		</header>
 	);
 }
