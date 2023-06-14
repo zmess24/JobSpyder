@@ -12,7 +12,7 @@ const router = createBrowserRouter(
 		<Route element={<Layout />} errorElement={<ErrorPage />}>
 			<Route path="/" element={<Companies />} loader={companiesLoader} />
 			<Route path="/companies" element={<Companies />} loader={companiesLoader} />
-			<Route path="/companies/:companyId:" element={<Company />} />
+			<Route path="/companies/:companyId" element={<Company />} />
 			<Route path="/roles" element={<Roles />} />
 		</Route>
 	)
