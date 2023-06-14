@@ -32,5 +32,5 @@ export default function Root() {
 	const { companies } = useLoaderData();
 	const navigation = useNavigation();
 
-	return <CompanyList companies={companies} />;
+	return <CompanyList data={companies} />;
 }

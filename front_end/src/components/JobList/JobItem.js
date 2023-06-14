@@ -21,7 +21,7 @@ export default function JobItem({ job }) {
 						<a
 							href={job.link}
 							target="_blank"
-							className="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold text-gray-900"
+							className="cursor-pointer relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold text-gray-900"
 						>
 							<LinkIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
 							Job Description
