@@ -25,7 +25,7 @@ export default function CompanyItem({ company }) {
 					{company.open_roles.length > 0 && (
 						<div className="flex w-0 flex-1">
 							<Link
-								to={`company/${company._id}`}
+								to={`/companies/${company._id}`}
 								state={{ company }}
 								className="cursor-pointer relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold text-gray-900"
 							>

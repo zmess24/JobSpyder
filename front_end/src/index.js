@@ -5,20 +5,33 @@ import reportWebVitals from "./reportWebVitals";
 import ErrorPage from "./error-page";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 // Routes
-import Root, { loader as rootLoader } from "./routes/root";
-import Company from "./routes/Company";
+import Companies, { loader as companiesLoader } from "./routes/Companies";
+import Roles from "./routes/Roles";
+import Company from "./routes/Companies/Company";
 import Layout from "./components/Layout";
 
 const router = createBrowserRouter([
 	{
 		path: "/",
-		element: <Root />,
+		element: <Companies />,
 		errorElement: <ErrorPage />,
-		loader: rootLoader,
+		loader: companiesLoader,
 	},
 	{
-		path: "/company/:companyId",
+		path: "/companies",
+		element: <Companies />,
+		errorElement: <ErrorPage />,
+		loader: companiesLoader,
+	},
+	{
+		path: "/companies/:companyId",
 		element: <Company />,
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: "/roles",
+		element: <Roles />,
+		errorElement: <ErrorPage />,
 	},
 ]);
 
