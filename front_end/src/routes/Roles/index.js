@@ -16,7 +16,7 @@ export async function loader() {
 			let roles = [];
 			companies.forEach((company) => {
 				company.open_roles.forEach((role) => {
-					role = Object.assign(role, { company: company.name, logo: company.logo });
+					role = Object.assign(role, { company: company.name, logo: company.logo, industries: company.industries });
 					roles.push(role);
 				});
 			});
@@ -28,7 +28,7 @@ export async function loader() {
 			let roles = [];
 			res.data.companies.forEach((company) => {
 				company.open_roles.forEach((role) => {
-					role = Object.assign(role, { company: company.name, logo: company.logo });
+					role = Object.assign(role, { company: company.name, logo: company.logo, industries: company.industries });
 					roles.push(role);
 				});
 			});

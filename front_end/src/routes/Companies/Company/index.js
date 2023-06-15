@@ -1,9 +1,9 @@
 // Importing modules
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import JobItem from "../../../components/JobList/JobItem";
+import JobItem from "./JobItem";
 import ListLayout from "../../../components/Layout/ListLayout";
-import CompanyHeader from "../../../components/CompanyList/CompanyHeader";
+import CompanyHeader from "./CompanyHeader";
 
 export default function Company() {
 	let { state } = useLocation();
