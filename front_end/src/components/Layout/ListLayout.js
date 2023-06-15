@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Header from "../Header";
 
-export default function ListLayout({ data, ListItemComponent, layoutCSS, searchKey }) {
+export default function ListLayout({ data, ListItemComponent, layoutCSS, searchKey, filters }) {
 	const INFINITE_SCROLL_STEP = 24;
 	const [allData] = useState(data);
 
@@ -77,7 +77,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, searchK
 
 	return (
 		<>
-			<Header search={{ handleSearchTermChange, searchTerm }} />
+			<Header search={{ handleSearchTermChange, searchTerm }} filters={filters} />
 			<p className="text-sm text-gray-500 mt-3">
 				Showing <strong>{resultsTotal.toLocaleString("en-US")}</strong> results
 			</p>

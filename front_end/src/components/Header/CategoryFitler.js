@@ -1,41 +1,29 @@
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
 import { Fragment, useState } from "react";
 import { Dialog, Disclosure, Menu, Popover, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
-const filters = [
-	{
-		id: "category",
-		name: "Category",
-		options: [
-			{ value: "new-arrivals", label: "All New Arrivals", checked: false },
-			{ value: "tees", label: "Tees", checked: false },
-			{ value: "objects", label: "Objects", checked: true },
-		],
-	},
-];
 const activeFilters = [{ value: "objects", label: "Objects" }];
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(" ");
 }
 
-export default function CategoryFilter() {
+export default function CategoryFilter({ filters }) {
 	const [open, setOpen] = useState(false);
+
+	debugger;
+	let options = filters.map((filter) => {
+		return { value: filter, label: filter, checked: false };
+	});
+
+	const filtersOptions = [
+		{
+			id: "industry",
+			name: "industry",
+			options: options,
+		},
+	];
 
 	return (
 		<div className="bg-white">
@@ -79,7 +67,7 @@ export default function CategoryFilter() {
 
 								{/* Filters */}
 								<form className="mt-4">
-									{filters.map((section) => (
+									{filtersOptions.map((section) => (
 										<Disclosure as="div" key={section.name} className="border-t border-gray-200 px-4 py-6">
 											{({ open }) => (
 												<>
@@ -127,10 +115,6 @@ export default function CategoryFilter() {
 				</Dialog>
 			</Transition.Root>
 
-			<div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
-				<h1 className="text-3xl font-bold tracking-tight text-gray-900">All Companies</h1>
-			</div>
-
 			{/* Filters */}
 			<section aria-labelledby="filter-heading">
 				<h2 id="filter-heading" className="sr-only">
@@ -150,7 +134,7 @@ export default function CategoryFilter() {
 						<div className="hidden sm:block">
 							<div className="flow-root">
 								<Popover.Group className="-mx-4 flex items-center divide-x divide-gray-200">
-									{filters.map((section, sectionIdx) => (
+									{filtersOptions.map((section, sectionIdx) => (
 										<Popover key={section.name} className="relative inline-block px-4 text-left">
 											<Popover.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
 												<span>{section.name}</span>

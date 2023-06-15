@@ -48,6 +48,12 @@ class CompanySpider(scrapy.Spider):
         else:
              return "Other"
     
+    def sanitize_industries(self, industries):
+        if industries == []:
+            return industries
+        else:
+            return list(map(lambda i: i.strip().title(), industries))
+            
     def grab_job_board_name(self, job_board):
         job_board_name = None
 
@@ -65,7 +71,7 @@ class CompanySpider(scrapy.Spider):
             company_link = self.sanitize_url(company.css(SELECTOR_MAP["topstartups"]["COMPANY_LINK_SELECTOR"]).extract_first()),
             job_board = self.sanitize_url(company.css(SELECTOR_MAP["topstartups"]["JOB_BOARD_SELECTOR"]).extract_first()),
             logo = company.css(SELECTOR_MAP["topstartups"]["LOGO_SELECTOR"]).extract_first(),
-            industries = company.css(SELECTOR_MAP["topstartups"]["INDUSTRIES_SELECTOR"]).extract(),
+            industries = self.sanitize_industries(company.css(SELECTOR_MAP["topstartups"]["INDUSTRIES_SELECTOR"]).extract()),
             open_roles = []
         )
 
