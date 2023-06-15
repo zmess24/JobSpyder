@@ -3,7 +3,6 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Header from "../Header";
 
 export default function ListLayout({ data, ListItemComponent, layoutCSS, searchKey }) {
-	debugger;
 	const INFINITE_SCROLL_STEP = 24;
 	const [allData] = useState(data);
 
@@ -74,12 +73,13 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, searchK
 
 	let nextLoader = searchTerm ? loadSearchResults : loadData;
 	let scrollState = searchTerm ? searchScroll : scroll;
+	let resultsTotal = searchTerm ? searchResults.length : allData.length;
 
 	return (
 		<>
 			<Header search={{ handleSearchTermChange, searchTerm }} />
 			<p className="text-sm text-gray-500 mt-3">
-				Showing <strong>{allData.length.toLocaleString("en-US")}</strong> results
+				Showing <strong>{resultsTotal.toLocaleString("en-US")}</strong> results
 			</p>
 			<InfiniteScroll dataLength={dataToRender.length} next={nextLoader} hasMore={scrollState} loader={<p>Loading...</p>}>
 				<ul role="list" className={layoutCSS}>

@@ -1,17 +1,17 @@
 // Importing modules
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import Stats from "../../../components/Stats";
-import JobList from "../../../components/JobList";
+import JobItem from "../../../components/JobList/JobItem";
+import ListLayout from "../../../components/Layout/ListLayout";
 import CompanyHeader from "../../../components/CompanyList/CompanyHeader";
 
 export default function Company() {
-	let location = useLocation();
-
+	let { state } = useLocation();
+	const layoutCSS = "grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 mt-5 pb-10";
 	return (
 		<>
-			<CompanyHeader company={location.state.data} />
-			<JobList roles={location.state.data.open_roles} />
+			<CompanyHeader company={state.data} />
+			<ListLayout data={state.data.open_roles} ListItemComponent={JobItem} layoutCSS={layoutCSS} searchKey={"title"} />
 		</>
 	);
 }
