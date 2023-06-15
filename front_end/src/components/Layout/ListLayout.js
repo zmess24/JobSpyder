@@ -78,6 +78,9 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, searchK
 	return (
 		<>
 			<Header search={{ handleSearchTermChange, searchTerm }} />
+			<p className="text-sm text-gray-500 mt-3">
+				Showing <strong>{allData.length.toLocaleString("en-US")}</strong> results
+			</p>
 			<InfiniteScroll dataLength={dataToRender.length} next={nextLoader} hasMore={scrollState} loader={<p>Loading...</p>}>
 				<ul role="list" className={layoutCSS}>
 					{dataToRender &&
