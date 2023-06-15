@@ -11,25 +11,6 @@ export async function loader() {
 	let today_date = moment().format("YYYY-MM-DD");
 	let last_update = await localforage.getItem("jobspyder_last_update");
 
-	let res = await axios.get("/api/v1/companies/");
-	let roles = [];
-	let industry_categories = [];
-
-	res.data.companies.forEach((company) => {
-		company.open_roles.forEach((role) => {
-			role = Object.assign(role, { company: company.name, logo: company.logo, industries: company.industries });
-			roles.push(role);
-		});
-
-		company.industries.forEach((industry) => {
-			if (industry_categories.indexOf(industry.trim()) === -1) industry_categories.push(industry.trim());
-		});
-	});
-
-	debugger;
-	await localforage.setItem("jobspyder_roles", roles);
-	await localforage.setItem("jobspyder_industry_categories", industry_categories);
-	return { roles, industry_categories };
 	try {
 		if (today_date === last_update) {
 			let roles = await localforage.getItem("jobspyder_roles");
@@ -47,8 +28,7 @@ export async function loader() {
 				});
 
 				company.industries.forEach((industry) => {
-					let sanitized = industry.toLowerCase().replace(/ /g, "");
-					if (industry_categories.indexOf(sanitized) > -1) industry_categories.push(sanitized);
+					if (industry_categories.indexOf(industry) === -1) industry_categories.push(industry);
 				});
 			});
 
