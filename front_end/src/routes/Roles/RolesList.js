@@ -28,18 +28,20 @@ export default function RolesList({ data }) {
 		setSearchIndex(searchIndex + INFINITE_SCROLL_STEP);
 		let roleList = searchResults.slice(0, searchIndex + INFINITE_SCROLL_STEP);
 		setRoles(roleList);
+		debugger;
 		if (roleList.length === searchResults.length) setSearchScroll(false);
 	};
 
 	const handleSearchTermChange = (e) => {
 		setSearchTerm(e.target.value);
+		setSearchScroll(true);
 
 		if (e.target.value == "") {
 			setSearchResults([]);
 			setSearchIndex(INFINITE_SCROLL_STEP);
 			setRoles(data.slice(0, index));
 		} else {
-			let formatted_search = e.target.value.toLowerCase().replace(" ", "");
+			let formatted_search = e.target.value.toLowerCase().replace(/ /g, "");
 
 			let sliceIntoChunks = (arr, chunkSize) => {
 				const res = [];
@@ -56,13 +58,14 @@ export default function RolesList({ data }) {
 
 			arrays.forEach((array) => {
 				let results = array.filter((role) => {
-					let formatted_role = role.title.toLowerCase().replace(" ", "");
+					let formatted_role = role.title.toLowerCase().replace(/ /g, "");
 					return formatted_role.indexOf(formatted_search) > -1;
 				});
 
 				arrayRef = arrayRef.concat(results);
 			});
 
+			debugger;
 			setRoles(arrayRef.slice(0, INFINITE_SCROLL_STEP));
 			setSearchResults(arrayRef);
 		}
@@ -76,8 +79,8 @@ export default function RolesList({ data }) {
 			<InfiniteScroll dataLength={roles.length} next={nextLoader} hasMore={scrollState} loader={<p>Loading...</p>} endMessage={<span></span>}>
 				<ul role="list" className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
 					{roles &&
-						roles.map((role) => {
-							return <RoleItem role={role} />;
+						roles.map((role, index) => {
+							return <RoleItem role={role} keyValue={index} />;
 						})}
 				</ul>
 			</InfiniteScroll>
