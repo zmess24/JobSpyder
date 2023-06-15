@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Header from "../Header";
 
-export default function ContainerLayout({ data }) {
+export default function ListLayout({ data, ListItemComponent, layoutCSS, searchKey }) {
+	debugger;
 	const INFINITE_SCROLL_STEP = 24;
 	const [allData] = useState(data);
 
@@ -17,7 +18,7 @@ export default function ContainerLayout({ data }) {
 	const [scroll, setScroll] = useState(true);
 	const [dataToRender, setDataToRender] = useState(data.slice(0, INFINITE_SCROLL_STEP));
 
-	const loadRoles = () => {
+	const loadData = () => {
 		setIndex(index + INFINITE_SCROLL_STEP);
 		let dataToRenderList = allData.slice(0, index + INFINITE_SCROLL_STEP);
 		setDataToRender(dataToRenderList);
@@ -33,6 +34,7 @@ export default function ContainerLayout({ data }) {
 
 	const handleSearchTermChange = (e) => {
 		setSearchTerm(e.target.value);
+		setSearchScroll(true);
 
 		if (e.target.value == "") {
 			setSearchResults([]);
@@ -51,33 +53,36 @@ export default function ContainerLayout({ data }) {
 			};
 
 			let arrays = sliceIntoChunks(allData, 100);
-
 			let arrayRef = [];
 
 			arrays.forEach((array) => {
-				let results = array.filter((role) => {
-					let formatted_role = role.title.toLowerCase().replace(" ", "");
+				let results = array.filter((data) => {
+					let formatted_role = data[searchKey].toLowerCase().replace(" ", "");
 					return formatted_role.indexOf(formatted_search) > -1;
 				});
 
 				arrayRef = arrayRef.concat(results);
 			});
 
+			if (arrayRef.length < INFINITE_SCROLL_STEP) {
+				setSearchScroll(false);
+			}
 			setDataToRender(arrayRef.slice(0, INFINITE_SCROLL_STEP));
 			setSearchResults(arrayRef);
 		}
 	};
 
-	let nextLoader = searchTerm ? loadSearchResults : loadRoles;
+	let nextLoader = searchTerm ? loadSearchResults : loadData;
 	let scrollState = searchTerm ? searchScroll : scroll;
+
 	return (
 		<>
 			<Header search={{ handleSearchTermChange, searchTerm }} />
 			<InfiniteScroll dataLength={dataToRender.length} next={nextLoader} hasMore={scrollState} loader={<p>Loading...</p>}>
-				<ul role="list" className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+				<ul role="list" className={layoutCSS}>
 					{dataToRender &&
 						dataToRender.map((role) => {
-							return <RoleItem role={role} />;
+							return <ListItemComponent data={role} />;
 						})}
 				</ul>
 			</InfiniteScroll>

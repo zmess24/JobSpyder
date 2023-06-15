@@ -1,10 +1,11 @@
 // Importing modules
-import React, { useState, useEffect } from "react";
+import React from "react";
 import axios from "axios";
 import { useLoaderData } from "react-router-dom";
 import localforage from "localforage";
 import moment from "moment/moment";
-import RolesList from "./RolesList";
+import RoleItem from "./RoleItem";
+import ListLayout from "../../components/Layout/ListLayout";
 
 export async function loader() {
 	try {
@@ -41,6 +42,7 @@ export async function loader() {
 
 export default function Roles() {
 	const { roles } = useLoaderData();
+	const layoutCSS = "grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 mt-5 pb-10";
 
-	return <RolesList data={roles} />;
+	return <ListLayout data={roles} ListItemComponent={RoleItem} layoutCSS={layoutCSS} searchKey={"title"} />;
 }

@@ -10,8 +10,8 @@ export default function Company() {
 
 	return (
 		<>
-			<CompanyHeader company={location.state.company} />
-			<JobList roles={location.state.company.open_roles} />
+			<CompanyHeader company={location.state.data} />
+			<JobList roles={location.state.data.open_roles} />
 		</>
 	);
 }

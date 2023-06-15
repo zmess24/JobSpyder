@@ -1,10 +1,11 @@
 // Importing modules
 import React from "react";
-import CompanyList from "../../components/CompanyList";
 import axios from "axios";
 import { useLoaderData } from "react-router-dom";
 import localforage from "localforage";
 import moment from "moment/moment";
+import ListLayout from "../../components/Layout/ListLayout";
+import CompanyItem from "./CompanyItem";
 
 export async function loader() {
 	try {
@@ -26,6 +27,7 @@ export async function loader() {
 
 export default function Companies() {
 	const { companies } = useLoaderData();
-
-	return <CompanyList data={companies} />;
+	const layoutCSS = "grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-5 pb-10 bg-gray-100";
+	// return <CompanyList data={companies} />;
+	return <ListLayout data={companies} ListItemComponent={CompanyItem} layoutCSS={layoutCSS} searchKey={"name"} />;
 }
