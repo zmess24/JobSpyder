@@ -13,6 +13,11 @@ export default function RoleItem({ data, keyValue }) {
 					<div className="mt-1 truncate text-sm text-gray-500">{data.location}</div>
 				</div>
 			</div>
+			<div className="flex items-center gap-x-4 mb-1 bg-white px-6">
+				<span className="inline-flex flex-shrink-0 items-center rounded-full bg-green-50 px-1.5 py-0.5 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+					{data.department}
+				</span>
+			</div>
 			<div className="flex items-center gap-x-4 divide-y divide-gray-200 border-b border-gray-900/7 bg-white px-6">
 				<dl className="mt-1 flex flex-grow flex-col justify-between">
 					<dt className="sr-only">Industries</dt>
