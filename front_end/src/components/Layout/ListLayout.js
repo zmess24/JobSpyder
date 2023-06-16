@@ -5,7 +5,6 @@ import Header from "../Header";
 export default function ListLayout({ data, ListItemComponent, layoutCSS, searchKey, filters }) {
 	const INFINITE_SCROLL_STEP = 24;
 	const [allData] = useState(data);
-
 	// Search State Varibles
 	const [searchResults, setSearchResults] = useState([]);
 	const [searchIndex, setSearchIndex] = useState(INFINITE_SCROLL_STEP);
