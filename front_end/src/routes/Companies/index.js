@@ -28,6 +28,5 @@ export async function loader() {
 export default function Companies() {
 	const { companies } = useLoaderData();
 	const layoutCSS = "grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-5 pb-10 bg-gray-100";
-	// return <CompanyList data={companies} />;
 	return <ListLayout data={companies} ListItemComponent={CompanyItem} layoutCSS={layoutCSS} searchKey={"name"} />;
 }
