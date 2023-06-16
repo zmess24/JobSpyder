@@ -76,7 +76,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, searchK
 
 	return (
 		<>
-			<Header search={{ handleSearchTermChange, searchTerm }} filters={filters} />
+			<Header search={{ handleSearchTermChange, searchTerm }} />
 			<p className="text-sm text-gray-500 mt-3">
 				Showing <strong>{resultsTotal.toLocaleString("en-US")}</strong> results
 			</p>
