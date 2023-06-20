@@ -19,7 +19,7 @@ async function loadFromApi(today_date) {
 	res.data.companies.forEach((company) => {
 		// Create Roles & Departmetns List
 		company.open_roles.forEach((role) => {
-			if (departments.indexOf(role.department) === -1) departments.push(role.departement);
+			if (departments.indexOf(role.department) === -1) departments.push(role.department);
 			role = Object.assign(role, { company: company.name, logo: company.logo, industries: company.industries });
 			roles.push(role);
 		});
@@ -29,10 +29,11 @@ async function loadFromApi(today_date) {
 			if (industry_categories.indexOf(industry) === -1) industry_categories.push(industry);
 		});
 	});
+
 	let data = { companies: res.data.companies, roles, industry_categories, departments };
+
 	await localforage.setItem(CACHE_OBJECT_KEY, JSON.stringify(data));
 	await localforage.setItem(CACHE_LAST_UPDATE_KEY, today_date);
-
 	return data;
 }
 
