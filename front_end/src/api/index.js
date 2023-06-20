@@ -28,15 +28,18 @@ async function loadFromApi(today_date) {
 		company.industries.forEach((industry) => {
 			let found = industry_options.find(({ value }) => value === industry);
 
-			if (!found) {
+			if (!found && industry !== "") {
 				let object = { value: industry, label: industry, checked: false };
 				industry_options.push(object);
 			}
 		});
 	});
 
-	debugger;
-	industry_options.sort((a, b) => b - a);
+	industry_options.sort((a, b) => {
+		let aValue = a.value.split(" ")[0].toUpperCase();
+		let bValue = b.value.split(" ")[0].toUpperCase();
+		return aValue > bValue ? 1 : -1;
+	});
 
 	let industries = { id: "industries", name: "Industries", options: industry_options };
 	let data = { companies: res.data.companies, roles, industries, departments };
@@ -49,8 +52,6 @@ async function loadFromApi(today_date) {
 export async function loadData() {
 	let today_date = moment().format("YYYY-MM-DD");
 	let last_update = await localforage.getItem(CACHE_LAST_UPDATE_KEY);
-
-	return await loadFromApi(today_date);
 
 	if (today_date === last_update) {
 		return await loadFromCache();

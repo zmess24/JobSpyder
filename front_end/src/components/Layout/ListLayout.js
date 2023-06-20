@@ -17,20 +17,23 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, searchK
 	const [searchTerm, setSearchTerm] = useState("");
 
 	// Industry Filter State Varibles
-	const [industryResults, setIndustryResults] = useState([]);
-	const [industryIndex, setIndustryIndex] = useState(INFINITE_SCROLL_STEP);
-	const [industriesToRender] = useState(filters.industries.options.slice(0, INFINITE_SCROLL_STEP));
-	const [industryDialogOpen, setIndustryDialogOpen] = useState(false);
-	const [industryTerm, setIndustryTerm] = useState("");
-	const [activeIndustry, setActiveIndustry] = useState([{ value: "objects", label: "Objects" }]);
+	const [activeIndustry, setActiveIndustry] = useState([]);
 
 	// Infinite Scroll State Variables
 	const [index, setIndex] = useState(INFINITE_SCROLL_STEP);
 	const [scroll, setScroll] = useState(true);
 	const [dataToRender, setDataToRender] = useState(data.slice(0, INFINITE_SCROLL_STEP));
 
-	// Filter State Varialbes
+	// Handle Filter Change
+	const addFilter = (value) => {
+		setActiveIndustry([...activeIndustry, { value, label: value }]);
+	};
 
+	const removeFilter = (value) => {
+		setActiveIndustry(activeIndustry.filter((a) => a.value !== value));
+	};
+
+	// Filter State Varialbes
 	const loadData = () => {
 		setIndex(index + INFINITE_SCROLL_STEP);
 		let dataToRenderList = allData.slice(0, index + INFINITE_SCROLL_STEP);
@@ -43,11 +46,6 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, searchK
 		let dataToRenderList = searchResults.slice(0, searchIndex + INFINITE_SCROLL_STEP);
 		setDataToRender(dataToRenderList);
 		if (dataToRenderList.length === searchResults.length) setSearchScroll(false);
-	};
-
-	const handleIndustryTermChange = (e) => {
-		setIndustryTerm(e.target.value);
-		setIndustryDialogOpen(true);
 	};
 
 	const handleSearchTermChange = (e) => {
@@ -96,13 +94,10 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, searchK
 
 	return (
 		<>
-			<Header
-				search={{ handleSearchTermChange, searchTerm }}
-				industries={{ handleIndustryTermChange, industryTerm, industryDialogOpen, setIndustryDialogOpen, allIndustries }}
-			/>
+			<Header search={{ handleSearchTermChange, searchTerm }} filters={{ allIndustries, addFilter, removeFilter }} />
 			<div className="flex flex-row mt-3 justify-between">
 				<Results total={resultsTotal.toLocaleString("en-US")} />
-				<ActiveFilters activeOptions={activeIndustry} />
+				<ActiveFilters activeOptions={activeIndustry} removeFilter={removeFilter} />
 			</div>
 			<InfiniteScroll dataLength={dataToRender.length} next={nextLoader} hasMore={scrollState} loader={<p>Loading...</p>}>
 				<ul role="list" className={layoutCSS}>

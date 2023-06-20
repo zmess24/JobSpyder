@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function ActiveFilters({ activeOptions }) {
+export default function ActiveFilters({ activeOptions, removeFilter }) {
 	return (
 		<div className="bg-gray-100">
 			<div className="mx-auto max-w-7xl px-4 sm:flex sm:items-center sm:px-6 lg:px-8">
@@ -21,6 +21,7 @@ export default function ActiveFilters({ activeOptions }) {
 								<span>{activeFilter.label}</span>
 								<button
 									type="button"
+									onClick={() => removeFilter(activeFilter.value)}
 									className="ml-1 inline-flex h-4 w-4 flex-shrink-0 rounded-full p-1 text-gray-400 hover:bg-gray-200 hover:text-gray-500"
 								>
 									<span className="sr-only">Remove filter for {activeFilter.label}</span>

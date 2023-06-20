@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
@@ -7,10 +7,11 @@ function classNames(...classes) {
 	return classes.filter(Boolean).join(" ");
 }
 
-export default function SearchDialog({ open, setOpen, filters }) {
-	debugger;
+export default function SearchDialog({ filters, addFilter, removeFilter }) {
+	const [open, setOpen] = useState(false);
+
 	return (
-		<div className="bg-white">
+		<div>
 			{/* Mobile filter dialog */}
 			<Transition.Root show={open} as={Fragment}>
 				<Dialog as="div" className="relative z-40 sm:hidden" onClose={setOpen}>
@@ -105,20 +106,15 @@ export default function SearchDialog({ open, setOpen, filters }) {
 					Filters
 				</h2>
 
-				<div className="border-b border-gray-200 bg-white pb-4">
+				<div className="">
 					<div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
 						<div className="hidden sm:block">
 							<div className="flow-root">
 								<Popover.Group className="-mx-4 flex items-center divide-x divide-gray-200 ">
 									{filters.map((section, sectionIdx) => (
 										<Popover key={section.name} className="relative inline-block px-4 text-left">
-											<Popover.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+											<Popover.Button className="inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">
 												<span>{section.name}</span>
-												{sectionIdx === 0 ? (
-													<span className="ml-1.5 rounded bg-gray-200 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-gray-700">
-														1
-													</span>
-												) : null}
 												<ChevronDownIcon
 													className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
 													aria-hidden="true"
@@ -135,7 +131,7 @@ export default function SearchDialog({ open, setOpen, filters }) {
 												leaveTo="transform opacity-0 scale-95"
 											>
 												<Popover.Panel className="absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-white p-4 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
-													<form className="space-y-4 overflow-auto" style={{ maxHeight: "50vh" }}>
+													<form className="space-y-4 overflow-auto pt-1" style={{ maxHeight: "50vh" }}>
 														{section.options.map((option, optionIdx) => (
 															<div key={option.value} className="flex items-center">
 																<input
@@ -144,7 +140,8 @@ export default function SearchDialog({ open, setOpen, filters }) {
 																	defaultValue={option.value}
 																	type="checkbox"
 																	defaultChecked={option.checked}
-																	className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+																	className="ml-1 h-4 w-4 rounded border-gray-300 text-indigo-600"
+																	onClick={() => addFilter(option.value)}
 																/>
 																<label
 																	htmlFor={`filter-${section.id}-${optionIdx}`}
