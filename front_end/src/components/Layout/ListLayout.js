@@ -1,20 +1,33 @@
 import React, { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
+import Results from "./Results";
 import Header from "../Header";
 
 export default function ListLayout({ data, ListItemComponent, layoutCSS, searchKey, filters }) {
 	const INFINITE_SCROLL_STEP = 24;
 	const [allData] = useState(data);
+	const [allIndustries] = useState(filters.industries);
+	const [allDepartments] = useState(filters.departments);
+
 	// Search State Varibles
 	const [searchResults, setSearchResults] = useState([]);
 	const [searchIndex, setSearchIndex] = useState(INFINITE_SCROLL_STEP);
 	const [searchScroll, setSearchScroll] = useState(true);
 	const [searchTerm, setSearchTerm] = useState("");
 
+	// Industry Filter State Varibles
+	const [industryResults, setIndustryResults] = useState([]);
+	const [industryIndex, setIndustryIndex] = useState(INFINITE_SCROLL_STEP);
+	const [industriesToRender] = useState(filters.industries.slice(0, INFINITE_SCROLL_STEP));
+	const [industryDialogOpen, setIndustryDialogOpen] = useState(false);
+	const [industryTerm, setIndustryTerm] = useState("");
+
 	// Infinite Scroll State Variables
 	const [index, setIndex] = useState(INFINITE_SCROLL_STEP);
 	const [scroll, setScroll] = useState(true);
 	const [dataToRender, setDataToRender] = useState(data.slice(0, INFINITE_SCROLL_STEP));
+
+	// Filter State Varialbes
 
 	const loadData = () => {
 		setIndex(index + INFINITE_SCROLL_STEP);
@@ -28,6 +41,11 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, searchK
 		let dataToRenderList = searchResults.slice(0, searchIndex + INFINITE_SCROLL_STEP);
 		setDataToRender(dataToRenderList);
 		if (dataToRenderList.length === searchResults.length) setSearchScroll(false);
+	};
+
+	const handleIndustryTermChange = (e) => {
+		setIndustryTerm(e.target.value);
+		setIndustryDialogOpen(true);
 	};
 
 	const handleSearchTermChange = (e) => {
@@ -76,10 +94,11 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, searchK
 
 	return (
 		<>
-			<Header search={{ handleSearchTermChange, searchTerm }} />
-			<p className="text-sm text-gray-500 mt-3">
-				Showing <strong>{resultsTotal.toLocaleString("en-US")}</strong> results
-			</p>
+			<Header
+				search={{ handleSearchTermChange, searchTerm }}
+				industries={{ handleIndustryTermChange, industryTerm, industryDialogOpen, setIndustryDialogOpen, industriesToRender }}
+			/>
+			<Results total={resultsTotal.toLocaleString("en-US")} />
 			<InfiniteScroll dataLength={dataToRender.length} next={nextLoader} hasMore={scrollState} loader={<p>Loading...</p>}>
 				<ul role="list" className={layoutCSS}>
 					{dataToRender &&

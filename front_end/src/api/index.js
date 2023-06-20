@@ -13,7 +13,7 @@ async function loadFromCache() {
 async function loadFromApi(today_date) {
 	let res = await axios.get("/api/v1/companies/");
 	let roles = [];
-	let industry_categories = [];
+	let industry_options = [];
 	let departments = [];
 
 	res.data.companies.forEach((company) => {
@@ -26,11 +26,17 @@ async function loadFromApi(today_date) {
 
 		// Create Unique Industries List
 		company.industries.forEach((industry) => {
-			if (industry_categories.indexOf(industry) === -1) industry_categories.push(industry);
+			let found = industry_options.find(({ value }) => value === industry);
+
+			if (!found) {
+				let object = { value: industry, label: industry, checked: false };
+				industry_options.push(object);
+			}
 		});
 	});
 
-	let data = { companies: res.data.companies, roles, industry_categories, departments };
+	let industries = { id: "industries", name: "Industries", options: industry_options };
+	let data = { companies: res.data.companies, roles, industries, departments };
 
 	await localforage.setItem(CACHE_OBJECT_KEY, JSON.stringify(data));
 	await localforage.setItem(CACHE_LAST_UPDATE_KEY, today_date);
@@ -40,6 +46,7 @@ async function loadFromApi(today_date) {
 export async function loadData() {
 	let today_date = moment().format("YYYY-MM-DD");
 	let last_update = await localforage.getItem(CACHE_LAST_UPDATE_KEY);
+	return await loadFromApi(today_date);
 
 	if (today_date === last_update) {
 		return await loadFromCache();
