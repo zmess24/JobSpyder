@@ -16,7 +16,8 @@ export async function loader() {
 export default function NavLayout() {
 	const data = useLoaderData();
 	const layoutCSS = "grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 mt-5 pb-10";
-	const fakeData = Array(24).fill(0);
+	const fakeArray = Array(24).fill(0);
+	const fakeIndustyData = { id: "industries", name: "Industries", options: fakeArray };
 
 	return (
 		<div className="bg-gray-100 min-h-screen">
@@ -25,8 +26,8 @@ export default function NavLayout() {
 				<Suspense
 					fallback={
 						<ListLayout
-							data={fakeData}
-							filters={{ industries: fakeData, departments: fakeData }}
+							data={fakeArray}
+							filters={{ industries: fakeIndustyData, departments: fakeArray }}
 							ListItemComponent={LoadingItem}
 							layoutCSS={layoutCSS}
 							searchKey={"title"}

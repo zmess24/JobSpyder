@@ -6,14 +6,9 @@ import ListLayout from "../../components/Layout/ListLayout";
 
 export default function Roles() {
 	const layoutCSS = "grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 mt-5 pb-10";
-	const { JobSpyderData } = useOutletContext();
-	return (
-		<ListLayout
-			data={JobSpyderData.roles}
-			filters={{ industries: JobSpyderData.industry_categories, departments: JobSpyderData.departments }}
-			ListItemComponent={RoleItem}
-			layoutCSS={layoutCSS}
-			searchKey={"title"}
-		/>
-	);
+
+	const {
+		JobSpyderData: { roles, industries, departments },
+	} = useOutletContext();
+	return <ListLayout data={roles} filters={{ industries, departments }} ListItemComponent={RoleItem} layoutCSS={layoutCSS} searchKey={"title"} />;
 }

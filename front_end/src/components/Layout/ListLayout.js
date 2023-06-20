@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Results from "./Results";
+import ActiveFilters from "./ActiveFilters";
 import Header from "../Header";
 
 export default function ListLayout({ data, ListItemComponent, layoutCSS, searchKey, filters }) {
@@ -18,9 +19,10 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, searchK
 	// Industry Filter State Varibles
 	const [industryResults, setIndustryResults] = useState([]);
 	const [industryIndex, setIndustryIndex] = useState(INFINITE_SCROLL_STEP);
-	const [industriesToRender] = useState(filters.industries.slice(0, INFINITE_SCROLL_STEP));
+	const [industriesToRender] = useState(filters.industries.options.slice(0, INFINITE_SCROLL_STEP));
 	const [industryDialogOpen, setIndustryDialogOpen] = useState(false);
 	const [industryTerm, setIndustryTerm] = useState("");
+	const [activeIndustry, setActiveIndustry] = useState([{ value: "objects", label: "Objects" }]);
 
 	// Infinite Scroll State Variables
 	const [index, setIndex] = useState(INFINITE_SCROLL_STEP);
@@ -96,9 +98,12 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, searchK
 		<>
 			<Header
 				search={{ handleSearchTermChange, searchTerm }}
-				industries={{ handleIndustryTermChange, industryTerm, industryDialogOpen, setIndustryDialogOpen, industriesToRender }}
+				industries={{ handleIndustryTermChange, industryTerm, industryDialogOpen, setIndustryDialogOpen, allIndustries }}
 			/>
-			<Results total={resultsTotal.toLocaleString("en-US")} />
+			<div className="flex flex-row mt-3 justify-between">
+				<Results total={resultsTotal.toLocaleString("en-US")} />
+				<ActiveFilters activeOptions={activeIndustry} />
+			</div>
 			<InfiniteScroll dataLength={dataToRender.length} next={nextLoader} hasMore={scrollState} loader={<p>Loading...</p>}>
 				<ul role="list" className={layoutCSS}>
 					{dataToRender &&
