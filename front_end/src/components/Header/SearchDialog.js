@@ -1,56 +1,7 @@
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
-import { Fragment, useState } from "react";
-import { Dialog, Disclosure, Menu, Popover, Transition } from "@headlessui/react";
+import { Fragment } from "react";
+import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
-
-// const sortOptions = [
-// 	{ name: "Most Popular", href: "#", current: true },
-// 	{ name: "Best Rating", href: "#", current: false },
-// 	{ name: "Newest", href: "#", current: false },
-// ];
-// const filters = [
-// 	{
-// 		id: "category",
-// 		name: "Category",
-// 		options: [
-// 			{ value: "new-arrivals", label: "All New Arrivals", checked: false },
-// 			{ value: "tees", label: "Tees", checked: false },
-// 			{ value: "objects", label: "Objects", checked: true },
-// 		],
-// 	},
-// 	{
-// 		id: "color",
-// 		name: "Color",
-// 		options: [
-// 			{ value: "white", label: "White", checked: false },
-// 			{ value: "beige", label: "Beige", checked: false },
-// 			{ value: "blue", label: "Blue", checked: false },
-// 		],
-// 	},
-// 	{
-// 		id: "sizes",
-// 		name: "Sizes",
-// 		options: [
-// 			{ value: "s", label: "S", checked: false },
-// 			{ value: "m", label: "M", checked: false },
-// 			{ value: "l", label: "L", checked: false },
-// 		],
-// 	},
-// ];
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(" ");
@@ -156,17 +107,9 @@ export default function SearchDialog({ open, setOpen, filters }) {
 
 				<div className="border-b border-gray-200 bg-white pb-4">
 					<div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-						<button
-							type="button"
-							className="inline-block text-sm font-medium text-gray-700 hover:text-gray-900 sm:hidden"
-							onClick={() => setOpen(true)}
-						>
-							Filters
-						</button>
-
 						<div className="hidden sm:block">
 							<div className="flow-root">
-								<Popover.Group className="-mx-4 flex items-center divide-x divide-gray-200">
+								<Popover.Group className="-mx-4 flex items-center divide-x divide-gray-200 ">
 									{filters.map((section, sectionIdx) => (
 										<Popover key={section.name} className="relative inline-block px-4 text-left">
 											<Popover.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
@@ -192,7 +135,7 @@ export default function SearchDialog({ open, setOpen, filters }) {
 												leaveTo="transform opacity-0 scale-95"
 											>
 												<Popover.Panel className="absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-white p-4 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
-													<form className="space-y-4">
+													<form className="space-y-4 overflow-auto" style={{ maxHeight: "50vh" }}>
 														{section.options.map((option, optionIdx) => (
 															<div key={option.value} className="flex items-center">
 																<input
@@ -221,8 +164,6 @@ export default function SearchDialog({ open, setOpen, filters }) {
 						</div>
 					</div>
 				</div>
-
-				{/* Active filters */}
 			</section>
 		</div>
 	);

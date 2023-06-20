@@ -35,6 +35,9 @@ async function loadFromApi(today_date) {
 		});
 	});
 
+	debugger;
+	industry_options.sort((a, b) => b - a);
+
 	let industries = { id: "industries", name: "Industries", options: industry_options };
 	let data = { companies: res.data.companies, roles, industries, departments };
 
@@ -46,6 +49,7 @@ async function loadFromApi(today_date) {
 export async function loadData() {
 	let today_date = moment().format("YYYY-MM-DD");
 	let last_update = await localforage.getItem(CACHE_LAST_UPDATE_KEY);
+
 	return await loadFromApi(today_date);
 
 	if (today_date === last_update) {
