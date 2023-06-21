@@ -4,7 +4,7 @@ import Results from "./Results";
 import ActiveFilters from "./ActiveFilters";
 import Header from "../Header";
 
-export default function ListLayout({ data, ListItemComponent, layoutCSS, searchKey, filters }) {
+export default function ListLayout({ data, ListItemComponent, layoutCSS, filters }) {
 	const INFINITE_SCROLL_STEP = 24;
 	const [allData] = useState(data);
 	const [allIndustries] = useState(filters.industries);
@@ -25,11 +25,11 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, searchK
 	const [dataToRender, setDataToRender] = useState(data.slice(0, INFINITE_SCROLL_STEP));
 
 	// Handle Filter Change
-	const addFilter = (value) => {
-		setActiveIndustry([...activeIndustry, { value, label: value }]);
+	const addFilter = (value, type) => {
+		setActiveIndustry([...activeIndustry, { value, label: value, type }]);
 	};
 
-	const removeFilter = (value) => {
+	const removeFilter = (value, type) => {
 		setActiveIndustry(activeIndustry.filter((a) => a.value !== value));
 	};
 
@@ -48,6 +48,32 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, searchK
 		if (dataToRenderList.length === searchResults.length) setSearchScroll(false);
 	};
 
+	const filterResults = (searchItem, keyToSearch) => {
+		let sliceIntoChunks = (arr, chunkSize) => {
+			const res = [];
+			for (let i = 0; i < arr.length; i += chunkSize) {
+				let chunk = arr.slice(i, i + chunkSize);
+				res.push(chunk);
+			}
+			return res;
+		};
+
+		let arrays = sliceIntoChunks(allData, 100);
+		let arrayRef = [];
+
+		arrays.forEach((array) => {
+			let results = array.filter((data) => {
+				debugger;
+				let formatted_role = data[keyToSearch].toLowerCase().replace(" ", "");
+				return formatted_role.indexOf(searchItem) > -1;
+			});
+
+			arrayRef = arrayRef.concat(results);
+		});
+
+		return arrayRef;
+	};
+
 	const handleSearchTermChange = (e) => {
 		setSearchTerm(e.target.value);
 		setSearchScroll(true);
@@ -59,32 +85,14 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, searchK
 		} else {
 			let formatted_search = e.target.value.toLowerCase().replace(" ", "");
 
-			let sliceIntoChunks = (arr, chunkSize) => {
-				const res = [];
-				for (let i = 0; i < arr.length; i += chunkSize) {
-					let chunk = arr.slice(i, i + chunkSize);
-					res.push(chunk);
-				}
-				return res;
-			};
+			let results = filterResults(formatted_search, "title");
 
-			let arrays = sliceIntoChunks(allData, 100);
-			let arrayRef = [];
-
-			arrays.forEach((array) => {
-				let results = array.filter((data) => {
-					let formatted_role = data[searchKey].toLowerCase().replace(" ", "");
-					return formatted_role.indexOf(formatted_search) > -1;
-				});
-
-				arrayRef = arrayRef.concat(results);
-			});
-
-			if (arrayRef.length < INFINITE_SCROLL_STEP) {
+			if (results.length < INFINITE_SCROLL_STEP) {
 				setSearchScroll(false);
 			}
-			setDataToRender(arrayRef.slice(0, INFINITE_SCROLL_STEP));
-			setSearchResults(arrayRef);
+
+			setDataToRender(results.slice(0, INFINITE_SCROLL_STEP));
+			setSearchResults(results);
 		}
 	};
 

@@ -1,6 +1,9 @@
 import React from "react";
 
 export default function ActiveFilters({ activeOptions, removeFilter }) {
+	const industryColors = "text-blue-700 border-blue-200 bg-blue-50";
+	const departmentColors = "text-blue-700 border-blue-200 bg-blue-50";
+
 	return (
 		<div className="bg-gray-100">
 			<div className="mx-auto max-w-7xl px-4 sm:flex sm:items-center sm:px-6 lg:px-8">
@@ -16,13 +19,15 @@ export default function ActiveFilters({ activeOptions, removeFilter }) {
 						{activeOptions.map((activeFilter) => (
 							<span
 								key={activeFilter.value}
-								className="m-1 inline-flex items-center rounded-full border border-gray-200 bg-white py-1.5 pl-3 pr-2 text-sm font-medium text-gray-900"
+								className={`m-1 inline-flex items-center rounded-full border py-1.5 pl-3 pr-2 text-sm font-medium ${
+									activeFilter.type === "industry" ? industryColors : departmentColors
+								}`}
 							>
 								<span>{activeFilter.label}</span>
 								<button
 									type="button"
 									onClick={() => removeFilter(activeFilter.value)}
-									className="ml-1 inline-flex h-4 w-4 flex-shrink-0 rounded-full p-1 text-gray-400 hover:bg-gray-200 hover:text-gray-500"
+									className="ml-1 inline-flex h-4 w-4 flex-shrink-0 rounded-full p-1 text-blue-700 hover:bg-blue-100 hover:text-blue-900"
 								>
 									<span className="sr-only">Remove filter for {activeFilter.label}</span>
 									<svg className="h-2 w-2" stroke="currentColor" fill="none" viewBox="0 0 8 8">

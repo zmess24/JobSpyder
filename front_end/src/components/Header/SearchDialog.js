@@ -10,8 +10,8 @@ function classNames(...classes) {
 export default function SearchDialog({ filters, addFilter, removeFilter }) {
 	const [open, setOpen] = useState(false);
 
-	const handleClick = (e, value) => {
-		e.target.checked === false ? removeFilter(value) : addFilter(value);
+	const handleClick = (e, value, type) => {
+		e.target.checked === false ? removeFilter(value, type) : addFilter(value, type);
 	};
 
 	return (
@@ -145,7 +145,7 @@ export default function SearchDialog({ filters, addFilter, removeFilter }) {
 																	type="checkbox"
 																	defaultChecked={option.checked}
 																	className="ml-1 h-4 w-4 rounded border-gray-300 text-indigo-600"
-																	onClick={(e) => handleClick(e, option.value)}
+																	onClick={(e) => handleClick(e, option.value, section.id)}
 																/>
 																<label
 																	htmlFor={`filter-${section.id}-${optionIdx}`}
