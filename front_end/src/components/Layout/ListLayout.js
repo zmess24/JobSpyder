@@ -31,7 +31,8 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 	};
 
 	// Filter Results Function
-	const filterResults = ({ searchCriteria, keyToSearch }, dataset = allData) => {
+	const filterResults = ({ searchTerm, searchKey, filters, filterKey }) => {
+		// Sliceing Function
 		let sliceIntoChunks = (arr, chunkSize) => {
 			const res = [];
 			for (let i = 0; i < arr.length; i += chunkSize) {
@@ -41,20 +42,21 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 			return res;
 		};
 
-		let arrays = sliceIntoChunks(dataset, 100);
+		let arrays = sliceIntoChunks(allData, 100);
 		let arrayRef = [];
 
 		arrays.forEach((array) => {
 			let results = array.filter((data) => {
-				debugger;
-				if (keyToSearch === "industries" && searchCriteria.length > 0) {
-					let found = searchCriteria.find(({ value }) => {
-						return data[keyToSearch].indexOf(value) > -1;
+				let formatted_role = data[searchKey].toLowerCase().replace(" ", "");
+
+				if (filters.length > 0) {
+					let filterFound = filters.find(({ value }) => {
+						return data[filterKey].indexOf(value) > -1;
 					});
-					return found;
+
+					return filterFound ? formatted_role.indexOf(searchTerm) > -1 : false;
 				} else {
-					let formatted_role = data[keyToSearch].toLowerCase().replace(" ", "");
-					return formatted_role.indexOf(searchCriteria) > -1;
+					return formatted_role.indexOf(searchTerm) > -1;
 				}
 			});
 
@@ -70,7 +72,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 	const addFilter = (value, type) => {
 		let industries = [...activeIndustry, { value, label: value, type }];
 		setActiveIndustry(industries);
-		filterResults({ searchCriteria: industries, keyToSearch: "industries" });
+		filterResults({ searchTerm, searchKey: "title", filters: industries, filterKey: "industries" });
 	};
 
 	const removeFilter = (value, type) => {
@@ -79,7 +81,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 		if (industries.length === 0 && searchTerm === "") {
 			resetSearch();
 		} else {
-			filterResults({ searchCriteria: industries, keyToSearch: "industries" });
+			filterResults({ searchTerm, searchKey: "title", filters: industries, filterKey: "industries" });
 		}
 	};
 
@@ -101,17 +103,12 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 	const handleSearchTermChange = (e) => {
 		setSearchTerm(e.target.value);
 		setSearchScroll(true);
-		let formatted_search = e.target.value.toLowerCase().replace(" ", "");
+		let searchTerm = e.target.value.toLowerCase().replace(" ", "");
 
 		if (e.target.value === "" && activeIndustry.length === 0) {
 			resetSearch();
-		} else if (e.target.value === "" && activeIndustry.length > 0) {
-			filterResults({ searchCriteria: activeIndustry, keyToSearch: "industries" });
-			filterResults({ searchCriteria: formatted_search, keyToSearch: "title" }, searchResults);
-		} else if (activeIndustry.length > 0) {
-			filterResults({ searchCriteria: formatted_search, keyToSearch: "title" }, searchResults);
 		} else {
-			filterResults({ searchCriteria: formatted_search, keyToSearch: "title" });
+			filterResults({ searchTerm, searchKey: "title", filters: activeIndustry, filterKey: "industries" });
 		}
 	};
 
