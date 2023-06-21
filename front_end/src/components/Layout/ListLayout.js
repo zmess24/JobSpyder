@@ -47,7 +47,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 
 		arrays.forEach((array) => {
 			let results = array.filter((data) => {
-				let formatted_role = data[searchKey].toLowerCase().replace(" ", "");
+				let formatted_role = data[searchKey].toLowerCase().replace(/ /g, "");
 
 				if (filters.length > 0) {
 					let filterFound = filters.find(({ value }) => {
@@ -60,6 +60,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 				}
 			});
 
+			debugger;
 			arrayRef = arrayRef.concat(results);
 		});
 
@@ -81,6 +82,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 		if (industries.length === 0 && searchTerm === "") {
 			resetSearch();
 		} else {
+			debugger;
 			filterResults({ searchTerm, searchKey: "title", filters: industries, filterKey: "industries" });
 		}
 	};
@@ -103,7 +105,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 	const handleSearchTermChange = (e) => {
 		setSearchTerm(e.target.value);
 		setSearchScroll(true);
-		let searchTerm = e.target.value.toLowerCase().replace(" ", "");
+		let searchTerm = e.target.value.toLowerCase().replace(/ /g, "");
 
 		if (e.target.value === "" && activeIndustry.length === 0) {
 			resetSearch();
