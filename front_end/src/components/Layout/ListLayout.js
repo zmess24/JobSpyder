@@ -63,7 +63,6 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 
 		arrays.forEach((array) => {
 			let results = array.filter((data) => {
-				debugger;
 				let formatted_role = data[keyToSearch].toLowerCase().replace(" ", "");
 				return formatted_role.indexOf(searchItem) > -1;
 			});
@@ -71,7 +70,12 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 			arrayRef = arrayRef.concat(results);
 		});
 
-		return arrayRef;
+		if (arrayRef.length < INFINITE_SCROLL_STEP) {
+			setSearchScroll(false);
+		}
+
+		setDataToRender(arrayRef.slice(0, INFINITE_SCROLL_STEP));
+		setSearchResults(arrayRef);
 	};
 
 	const handleSearchTermChange = (e) => {
@@ -84,15 +88,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 			setDataToRender(data.slice(0, index));
 		} else {
 			let formatted_search = e.target.value.toLowerCase().replace(" ", "");
-
-			let results = filterResults(formatted_search, "title");
-
-			if (results.length < INFINITE_SCROLL_STEP) {
-				setSearchScroll(false);
-			}
-
-			setDataToRender(results.slice(0, INFINITE_SCROLL_STEP));
-			setSearchResults(results);
+			filterResults(formatted_search, "title");
 		}
 	};
 
