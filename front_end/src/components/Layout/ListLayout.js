@@ -7,8 +7,8 @@ import Header from "../Header";
 export default function ListLayout({ data, ListItemComponent, layoutCSS, filters }) {
 	const INFINITE_SCROLL_STEP = 24;
 	const [allData] = useState(data);
-	const [allIndustries] = useState(filters.industries);
-	const [allDepartments] = useState(filters.departments);
+	const [allIndustries, setAllIndustries] = useState(filters.industries);
+	const [allDepartments, setAllDepartments] = useState(filters.departments);
 
 	// Search State Varibles
 	const [searchResults, setSearchResults] = useState([]);
@@ -24,8 +24,14 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 	const [scroll, setScroll] = useState(true);
 	const [dataToRender, setDataToRender] = useState(data.slice(0, INFINITE_SCROLL_STEP));
 
+	const resetSearch = () => {
+		setSearchResults([]);
+		setSearchIndex(INFINITE_SCROLL_STEP);
+		setDataToRender(allData.slice(0, index));
+	};
+
 	// Filter Results Function
-	const filterResults = ({ searchCriteria, keyToSearch }) => {
+	const filterResults = ({ searchCriteria, keyToSearch }, dataset = allData) => {
 		let sliceIntoChunks = (arr, chunkSize) => {
 			const res = [];
 			for (let i = 0; i < arr.length; i += chunkSize) {
@@ -35,7 +41,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 			return res;
 		};
 
-		let arrays = sliceIntoChunks(allData, 100);
+		let arrays = sliceIntoChunks(dataset, 100);
 		let arrayRef = [];
 
 		arrays.forEach((array) => {
@@ -71,9 +77,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 		let industries = activeIndustry.filter((a) => a.value !== value);
 		setActiveIndustry(industries);
 		if (industries.length === 0 && searchTerm === "") {
-			setSearchResults([]);
-			setSearchIndex(INFINITE_SCROLL_STEP);
-			setDataToRender(allData.slice(0, index));
+			resetSearch();
 		} else {
 			filterResults({ searchCriteria: industries, keyToSearch: "industries" });
 		}
@@ -97,13 +101,16 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 	const handleSearchTermChange = (e) => {
 		setSearchTerm(e.target.value);
 		setSearchScroll(true);
+		let formatted_search = e.target.value.toLowerCase().replace(" ", "");
 
-		if (e.target.value == "") {
-			setSearchResults([]);
-			setSearchIndex(INFINITE_SCROLL_STEP);
-			setDataToRender(allData.slice(0, index));
+		if (e.target.value === "" && activeIndustry.length === 0) {
+			resetSearch();
+		} else if (e.target.value === "" && activeIndustry.length > 0) {
+			filterResults({ searchCriteria: activeIndustry, keyToSearch: "industries" });
+			filterResults({ searchCriteria: formatted_search, keyToSearch: "title" }, searchResults);
+		} else if (activeIndustry.length > 0) {
+			filterResults({ searchCriteria: formatted_search, keyToSearch: "title" }, searchResults);
 		} else {
-			let formatted_search = e.target.value.toLowerCase().replace(" ", "");
 			filterResults({ searchCriteria: formatted_search, keyToSearch: "title" });
 		}
 	};
