@@ -6,7 +6,7 @@ import Header from "../Header";
 import { saveInCache } from "../../api";
 import { filterResults } from "../../constants/utlitiies";
 
-export default function ListLayout({ data, ListItemComponent, layoutCSS, filters, settings, filteredData }) {
+export default function ListLayout({ data, ListItemComponent, layoutCSS, filters, settings, filteredData, searchKey }) {
 	const INFINITE_SCROLL_STEP = 24;
 	debugger;
 	const [allData] = useState(data);
@@ -72,7 +72,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 	// Handle Filter Change
 	const addFilter = async (value, type) => {
 		let industries = [...activeIndustry, { value, label: value, type }];
-		filterResults({ searchTerm, searchKey: "title", filters: industries, filterKey: "industries" });
+		filterResults({ searchTerm, searchKey, filters: industries, filterKey: "industries" });
 		setActiveIndustry(industries);
 		await saveInCache(industries);
 	};
@@ -83,7 +83,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 		if (industries.length === 0 && searchTerm === "") {
 			resetSearch();
 		} else {
-			filterResults({ searchTerm, searchKey: "title", filters: industries, filterKey: "industries" });
+			filterResults({ searchTerm, searchKey, filters: industries, filterKey: "industries" });
 		}
 
 		setActiveIndustry(industries);
@@ -114,7 +114,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 		if (e.target.value === "" && activeIndustry.length === 0) {
 			resetSearch();
 		} else {
-			filterResults({ searchTerm, searchKey: "title", filters: activeIndustry, filterKey: "industries" });
+			filterResults({ searchTerm, searchKey, filters: activeIndustry, filterKey: "industries" });
 		}
 	};
 

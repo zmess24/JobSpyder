@@ -24,6 +24,7 @@ export default function Dashboard() {
 			filters={{ industries, departments }}
 			ListItemComponent={RoleItem}
 			layoutCSS={styles.rolesLayout}
+			searchKey={"title"}
 			settings={settings ? settings : []}
 		/>
 	);

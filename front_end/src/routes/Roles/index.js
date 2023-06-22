@@ -17,6 +17,7 @@ export default function Roles() {
 			filters={{ industries, departments }}
 			ListItemComponent={RoleItem}
 			layoutCSS={styles.rolesLayout}
+			searchKey={"title"}
 			settings={[]}
 		/>
 	);
