@@ -3,10 +3,9 @@ import React from "react";
 import { useOutletContext } from "react-router-dom";
 import RoleItem from "./RoleItem";
 import ListLayout from "../../components/Layout/ListLayout";
+import styles from "../../constants/styles";
 
 export default function Roles() {
-	const layoutCSS = "grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 mt-5 pb-10";
-
 	const {
 		JobSpyderData: { roles, industries, departments },
 	} = useOutletContext();
@@ -16,7 +15,7 @@ export default function Roles() {
 			data={roles}
 			filters={{ industries, departments }}
 			ListItemComponent={RoleItem}
-			layoutCSS={layoutCSS}
+			layoutCSS={styles.rolesLayout}
 			enableCache={false}
 			settings={[]}
 		/>

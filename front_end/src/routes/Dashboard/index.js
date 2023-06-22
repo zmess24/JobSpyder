@@ -3,21 +3,24 @@ import React from "react";
 import { useOutletContext } from "react-router-dom";
 import RoleItem from "../Roles/RoleItem";
 import ListLayout from "../../components/Layout/ListLayout";
+import styles from "../../constants/styles";
+import { filterResults } from "../../constants/utlitiies";
 
 export default function Dashboard() {
-	const layoutCSS = "grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 mt-5 pb-10";
-
-	const {
+	let {
 		JobSpyderData: { roles, industries, departments, settings },
 	} = useOutletContext();
 
-	debugger;
+	if (settings.length > 0) {
+		roles = filterResults({ searchTerm: "", searchKey: "title", filters: settings, filterKey: "industries", dataSet: roles });
+	}
+
 	return (
 		<ListLayout
 			data={roles}
 			filters={{ industries, departments }}
 			ListItemComponent={RoleItem}
-			layoutCSS={layoutCSS}
+			layoutCSS={styles.rolesLayout}
 			enableCache={true}
 			settings={settings ? settings : []}
 		/>
