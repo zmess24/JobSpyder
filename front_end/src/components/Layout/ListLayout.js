@@ -3,9 +3,11 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Results from "./Results";
 import ActiveFilters from "./ActiveFilters";
 import Header from "../Header";
+import localforage from "localforage";
 
-export default function ListLayout({ data, ListItemComponent, layoutCSS, filters }) {
+export default function ListLayout({ data, ListItemComponent, layoutCSS, filters, enableCache }) {
 	const INFINITE_SCROLL_STEP = 24;
+
 	const [allData] = useState(data);
 	const [allIndustries, setAllIndustries] = useState(filters.industries);
 	const [allDepartments, setAllDepartments] = useState(filters.departments);
@@ -32,7 +34,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 
 	// Filter Results Function
 	const filterResults = ({ searchTerm, searchKey, filters, filterKey }) => {
-		// Sliceing Function
+		// Slicing Function
 		let sliceIntoChunks = (arr, chunkSize) => {
 			const res = [];
 			for (let i = 0; i < arr.length; i += chunkSize) {
@@ -100,6 +102,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 		}
 	};
 
+	//
 	const handleSearchTermChange = (e) => {
 		setSearchTerm(e.target.value);
 		setSearchScroll(true);

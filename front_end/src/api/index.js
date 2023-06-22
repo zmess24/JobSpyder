@@ -3,10 +3,12 @@ import localforage from "localforage";
 import axios from "axios";
 
 const CACHE_LAST_UPDATE_KEY = "jobspyder_last_update";
-const CACHE_OBJECT_KEY = "jobspyder_cache";
+const CACHE_DATA_KEY = "jobspyder_cache";
+const CACHE_SETTINGS_KEY = "jobspyder_settings_cache";
 
 async function loadFromCache() {
-	let data = await localforage.getItem(CACHE_OBJECT_KEY);
+	let data = await localforage.getItem(CACHE_DATA_KEY);
+	let settings = await localforage.getItem(CACHE_SETTINGS_KEY);
 	return JSON.parse(data);
 }
 
@@ -44,7 +46,7 @@ async function loadFromApi(today_date) {
 	let industries = { id: "industries", name: "Industries", options: industry_options };
 	let data = { companies: res.data.companies, roles, industries, departments };
 
-	await localforage.setItem(CACHE_OBJECT_KEY, JSON.stringify(data));
+	await localforage.setItem(CACHE_DATA_KEY, JSON.stringify(data));
 	await localforage.setItem(CACHE_LAST_UPDATE_KEY, today_date);
 	return data;
 }

@@ -11,5 +11,5 @@ export default function Roles() {
 		JobSpyderData: { roles, industries, departments },
 	} = useOutletContext();
 
-	return <ListLayout data={roles} filters={{ industries, departments }} ListItemComponent={RoleItem} layoutCSS={layoutCSS} />;
+	return <ListLayout data={roles} filters={{ industries, departments }} ListItemComponent={RoleItem} layoutCSS={layoutCSS} enableCache={false} />;
 }
