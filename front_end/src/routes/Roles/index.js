@@ -13,10 +13,10 @@ export default function Roles() {
 	return (
 		<ListLayout
 			data={roles}
+			filteredData={[]}
 			filters={{ industries, departments }}
 			ListItemComponent={RoleItem}
 			layoutCSS={styles.rolesLayout}
-			enableCache={false}
 			settings={[]}
 		/>
 	);

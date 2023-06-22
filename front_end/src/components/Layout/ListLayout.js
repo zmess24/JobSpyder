@@ -4,8 +4,9 @@ import Results from "./Results";
 import ActiveFilters from "./ActiveFilters";
 import Header from "../Header";
 import { saveInCache } from "../../api";
+import { filterResults } from "../../constants/utlitiies";
 
-export default function ListLayout({ data, ListItemComponent, layoutCSS, filters, enableCache, settings }) {
+export default function ListLayout({ data, ListItemComponent, layoutCSS, filters, settings, filteredData }) {
 	const INFINITE_SCROLL_STEP = 24;
 	debugger;
 	const [allData] = useState(data);
@@ -13,7 +14,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 	const [allDepartments, setAllDepartments] = useState(filters.departments);
 
 	// Search State Varibles
-	const [searchResults, setSearchResults] = useState([]);
+	const [searchResults, setSearchResults] = useState(filteredData);
 	const [searchIndex, setSearchIndex] = useState(INFINITE_SCROLL_STEP);
 	const [searchScroll, setSearchScroll] = useState(true);
 	const [searchTerm, setSearchTerm] = useState("");
