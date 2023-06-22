@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Results from "./Results";
 import ActiveFilters from "./ActiveFilters";
@@ -25,12 +25,6 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 	const [index, setIndex] = useState(INFINITE_SCROLL_STEP);
 	const [scroll, setScroll] = useState(true);
 	const [dataToRender, setDataToRender] = useState(data.slice(0, INFINITE_SCROLL_STEP));
-
-	useEffect(() => {
-		if (enableCache && settings.length > 0) {
-			filterResults({ searchTerm, searchKey: "title", filters: settings, filterKey: "industries" });
-		}
-	}, []);
 
 	const resetSearch = () => {
 		setSearchResults([]);

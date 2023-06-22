@@ -11,7 +11,6 @@ async function loadFromCache() {
 	let rawSettings = await localforage.getItem(CACHE_SETTINGS_KEY);
 	let data = JSON.parse(rawData);
 	let settings = JSON.parse(rawSettings);
-	debugger;
 	return { ...data, settings };
 }
 
@@ -61,6 +60,5 @@ export async function loadData() {
 }
 
 export async function saveInCache(settings) {
-	debugger;
 	await localforage.setItem(CACHE_SETTINGS_KEY, JSON.stringify(settings));
 }
