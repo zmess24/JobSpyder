@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Results from "./Results";
 import ActiveFilters from "./ActiveFilters";
 import Header from "../Header";
-import localforage from "localforage";
+import { saveInCache } from "../../api";
 
-export default function ListLayout({ data, ListItemComponent, layoutCSS, filters, enableCache }) {
+export default function ListLayout({ data, ListItemComponent, layoutCSS, filters, enableCache, settings }) {
 	const INFINITE_SCROLL_STEP = 24;
-
+	debugger;
 	const [allData] = useState(data);
 	const [allIndustries, setAllIndustries] = useState(filters.industries);
 	const [allDepartments, setAllDepartments] = useState(filters.departments);
@@ -19,12 +19,18 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 	const [searchTerm, setSearchTerm] = useState("");
 
 	// Industry Filter State Varibles
-	const [activeIndustry, setActiveIndustry] = useState([]);
+	const [activeIndustry, setActiveIndustry] = useState(settings);
 
 	// Infinite Scroll State Variables
 	const [index, setIndex] = useState(INFINITE_SCROLL_STEP);
 	const [scroll, setScroll] = useState(true);
 	const [dataToRender, setDataToRender] = useState(data.slice(0, INFINITE_SCROLL_STEP));
+
+	useEffect(() => {
+		if (enableCache && settings.length > 0) {
+			filterResults({ searchTerm, searchKey: "title", filters: settings, filterKey: "industries" });
+		}
+	}, []);
 
 	const resetSearch = () => {
 		setSearchResults([]);
@@ -69,13 +75,14 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 	};
 
 	// Handle Filter Change
-	const addFilter = (value, type) => {
+	const addFilter = async (value, type) => {
 		let industries = [...activeIndustry, { value, label: value, type }];
 		filterResults({ searchTerm, searchKey: "title", filters: industries, filterKey: "industries" });
 		setActiveIndustry(industries);
+		await saveInCache(industries);
 	};
 
-	const removeFilter = (value, type) => {
+	const removeFilter = async (value, type) => {
 		let industries = activeIndustry.filter((a) => a.value !== value);
 		console.log(industries.length);
 		if (industries.length === 0 && searchTerm === "") {
@@ -85,6 +92,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 		}
 
 		setActiveIndustry(industries);
+		await saveInCache(industries);
 	};
 
 	// Filter State Varialbes

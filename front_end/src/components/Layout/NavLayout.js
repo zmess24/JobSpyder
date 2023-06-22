@@ -31,6 +31,7 @@ export default function NavLayout() {
 							ListItemComponent={LoadingItem}
 							layoutCSS={layoutCSS}
 							searchKey={"title"}
+							settings={[]}
 						/>
 					}
 				>

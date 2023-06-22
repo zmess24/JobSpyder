@@ -6,11 +6,12 @@ import Roles from "./routes/Roles";
 import Company from "./routes/Companies/Company";
 import NavLayout, { loader as rootLoader } from "./components/Layout/NavLayout";
 import ErrorPage from "./error-page";
+import Dashboard from "./routes/Dashboard";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
 		<Route element={<NavLayout />} errorElement={<ErrorPage />} loader={rootLoader}>
-			<Route path="/" element={<Roles />} />
+			<Route path="/" element={<Dashboard />} />
 			<Route path="/companies" element={<Companies />} />
 			<Route path="/companies/:companyId" element={<Company />} />
 			<Route path="/roles" element={<Roles />} />

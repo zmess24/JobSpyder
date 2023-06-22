@@ -7,9 +7,12 @@ const CACHE_DATA_KEY = "jobspyder_cache";
 const CACHE_SETTINGS_KEY = "jobspyder_settings_cache";
 
 async function loadFromCache() {
-	let data = await localforage.getItem(CACHE_DATA_KEY);
-	let settings = await localforage.getItem(CACHE_SETTINGS_KEY);
-	return JSON.parse(data);
+	let rawData = await localforage.getItem(CACHE_DATA_KEY);
+	let rawSettings = await localforage.getItem(CACHE_SETTINGS_KEY);
+	let data = JSON.parse(rawData);
+	let settings = JSON.parse(rawSettings);
+	debugger;
+	return { ...data, settings };
 }
 
 async function loadFromApi(today_date) {
@@ -54,10 +57,10 @@ async function loadFromApi(today_date) {
 export async function loadData() {
 	let today_date = moment().format("YYYY-MM-DD");
 	let last_update = await localforage.getItem(CACHE_LAST_UPDATE_KEY);
+	return today_date === last_update ? await loadFromCache() : await loadFromApi(today_date);
+}
 
-	if (today_date === last_update) {
-		return await loadFromCache();
-	} else {
-		return await loadFromApi(today_date);
-	}
+export async function saveInCache(settings) {
+	debugger;
+	await localforage.setItem(CACHE_SETTINGS_KEY, JSON.stringify(settings));
 }
