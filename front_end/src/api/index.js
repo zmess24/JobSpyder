@@ -73,7 +73,7 @@ async function loadFromApi(today_date) {
 	});
 
 	let industries = { id: "industries", name: "Industries", options: industry_options };
-	let departments = { id: "departments", name: "Departments", options: department_options };
+	let departments = { id: "department", name: "Departments", options: department_options };
 	let data = { companies: res.data.companies, roles, filters: [industries, departments] };
 
 	await localforage.setItem(CACHE_DATA_KEY, JSON.stringify(data));

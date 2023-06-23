@@ -17,7 +17,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 	const [searchTerm, setSearchTerm] = useState("");
 
 	// Industry Filter State Varibles
-	const [activeIndustry, setActiveIndustry] = useState(settings);
+	const [activeFilters, setactiveFilters] = useState(settings);
 
 	// Infinite Scroll State Variables
 	const [index, setIndex] = useState(INFINITE_SCROLL_STEP);
@@ -69,28 +69,28 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 	// Handle Filter Change
 	const addFilter = async (value, type) => {
 		debugger;
-		let industries = [...activeIndustry, { value, label: value, type }];
-		filterResults({ searchTerm, searchKey, filters: industries, filterKey: "industries" });
-		setActiveIndustry(industries);
+		let industries = [...activeFilters, { value, label: value, type }];
+		filterResults({ searchTerm, searchKey, filters: industries, filterKey: type });
+		setactiveFilters(industries);
 		await saveInCache(industries);
 	};
 
 	const removeFilter = async (value, type) => {
-		let industries = activeIndustry.filter((a) => a.value !== value);
+		let industries = activeFilters.filter((a) => a.value !== value);
 		console.log(industries.length);
 		if (industries.length === 0 && searchTerm === "") {
 			resetSearch();
 		} else {
-			filterResults({ searchTerm, searchKey, filters: industries, filterKey: "industries" });
+			filterResults({ searchTerm, searchKey, filters: industries, filterKey: type });
 		}
 
-		setActiveIndustry(industries);
+		setactiveFilters(industries);
 		await saveInCache(industries);
 	};
 
 	// Filter State Varialbes
 	const loadData = () => {
-		if (searchTerm || activeIndustry.length > 0) {
+		if (searchTerm || activeFilters.length > 0) {
 			setSearchIndex(searchIndex + INFINITE_SCROLL_STEP);
 			let dataToRenderList = searchResults.slice(0, searchIndex + INFINITE_SCROLL_STEP);
 			setDataToRender(dataToRenderList);
@@ -109,22 +109,22 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 		setSearchScroll(true);
 		let searchTerm = e.target.value.toLowerCase().replace(/ /g, "");
 
-		if (e.target.value === "" && activeIndustry.length === 0) {
+		if (e.target.value === "" && activeFilters.length === 0) {
 			resetSearch();
 		} else {
-			filterResults({ searchTerm, searchKey, filters: activeIndustry, filterKey: "industries" });
+			filterResults({ searchTerm, searchKey, filters: activeFilters, filterKey: "industries" });
 		}
 	};
 
-	let scrollState = searchTerm || activeIndustry.length > 0 ? searchScroll : scroll;
-	let resultsTotal = searchTerm || activeIndustry.length > 0 ? searchResults.length : allData.length;
+	let scrollState = searchTerm || activeFilters.length > 0 ? searchScroll : scroll;
+	let resultsTotal = searchTerm || activeFilters.length > 0 ? searchResults.length : allData.length;
 
 	return (
 		<>
 			<Header search={{ handleSearchTermChange, searchTerm }} filters={{ filters, addFilter, removeFilter }} />
 			<div className="flex flex-row mt-3 justify-between">
 				<Results total={resultsTotal.toLocaleString("en-US")} />
-				<ActiveFilters activeOptions={activeIndustry} removeFilter={removeFilter} />
+				<ActiveFilters activeOptions={activeFilters} removeFilter={removeFilter} />
 			</div>
 			<InfiniteScroll dataLength={dataToRender.length} next={loadData} hasMore={scrollState} loader={<p>Loading...</p>}>
 				<ul role="list" className={layoutCSS}>
