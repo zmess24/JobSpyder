@@ -16,8 +16,6 @@ export default function Dashboard() {
 	if (settings.length > 0) {
 		fileredResults = filterResults({ searchTerm: "", searchKey: "title", filters: settings, filterKey: "industries", dataSet: roles });
 	}
-
-	debugger;
 	return (
 		<ListLayout
 			data={roles}
