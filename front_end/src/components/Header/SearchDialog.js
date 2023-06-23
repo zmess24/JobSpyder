@@ -2,6 +2,7 @@ import { Fragment, useState } from "react";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import styles from "../../constants/styles";
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(" ");
@@ -9,7 +10,6 @@ function classNames(...classes) {
 
 export default function SearchDialog({ filters, addFilter, removeFilter }) {
 	const [open, setOpen] = useState(false);
-	debugger;
 	const handleClick = (e, value, type) => {
 		e.target.checked === false ? removeFilter(value, type) : addFilter(value, type);
 	};
@@ -118,7 +118,11 @@ export default function SearchDialog({ filters, addFilter, removeFilter }) {
 								<Popover.Group className="-mx-4 flex items-center divide-x divide-gray-200 ">
 									{filters.map((section, sectionIdx) => (
 										<Popover key={section.name} className="relative inline-block px-4 text-left">
-											<Popover.Button className="inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">
+											<Popover.Button
+												className={`inline-flex items-center gap-x-2 rounded-md px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm ${
+													section.id === "industries" ? styles.industryFilterColor : styles.departmentFilterColor
+												}`}
+											>
 												<span>{section.name}</span>
 												<ChevronDownIcon
 													className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"

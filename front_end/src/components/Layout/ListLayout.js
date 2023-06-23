@@ -9,10 +9,7 @@ import { filterResults } from "../../constants/utlitiies";
 export default function ListLayout({ data, ListItemComponent, layoutCSS, filters, settings, filteredData, searchKey }) {
 	const INFINITE_SCROLL_STEP = 24;
 	const [allData] = useState(data);
-	const [allIndustries, setAllIndustries] = useState(filters.industries);
-	const [allDepartments, setAllDepartments] = useState(filters.departments);
 
-	debugger;
 	// Search State Varibles
 	const [searchResults, setSearchResults] = useState(filteredData);
 	const [searchIndex, setSearchIndex] = useState(INFINITE_SCROLL_STEP);
@@ -71,6 +68,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 
 	// Handle Filter Change
 	const addFilter = async (value, type) => {
+		debugger;
 		let industries = [...activeIndustry, { value, label: value, type }];
 		filterResults({ searchTerm, searchKey, filters: industries, filterKey: "industries" });
 		setActiveIndustry(industries);
