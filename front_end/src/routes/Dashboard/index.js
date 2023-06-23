@@ -10,7 +10,7 @@ export default function Dashboard() {
 	let fileredResults = [];
 
 	let {
-		JobSpyderData: { roles, industries, departments, settings },
+		JobSpyderData: { roles, filters, settings },
 	} = useOutletContext();
 
 	if (settings.length > 0) {
@@ -21,7 +21,7 @@ export default function Dashboard() {
 		<ListLayout
 			data={roles}
 			filteredData={fileredResults}
-			filters={{ industries, departments }}
+			filters={filters}
 			ListItemComponent={RoleItem}
 			layoutCSS={styles.rolesLayout}
 			searchKey={"title"}

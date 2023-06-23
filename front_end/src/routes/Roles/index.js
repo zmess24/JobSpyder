@@ -7,14 +7,14 @@ import styles from "../../constants/styles";
 
 export default function Roles() {
 	const {
-		JobSpyderData: { roles, industries, departments },
+		JobSpyderData: { roles, filters },
 	} = useOutletContext();
 
 	return (
 		<ListLayout
 			data={roles}
 			filteredData={[]}
-			filters={{ industries, departments }}
+			filters={filters}
 			ListItemComponent={RoleItem}
 			layoutCSS={styles.rolesLayout}
 			searchKey={"title"}

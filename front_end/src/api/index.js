@@ -2,28 +2,55 @@ import moment from "moment";
 import localforage from "localforage";
 import axios from "axios";
 
+/**
+|--------------------------------------------------
+| Cachey Keys
+|--------------------------------------------------
+*/
+
 const CACHE_LAST_UPDATE_KEY = "jobspyder_last_update";
 const CACHE_DATA_KEY = "jobspyder_cache";
 const CACHE_SETTINGS_KEY = "jobspyder_settings_cache";
 
+/**
+|--------------------------------------------------
+| Helper Functions
+|--------------------------------------------------
+*/
+
+const loadCachedSettings = async () => {
+	let settings = await localforage.getItem(CACHE_SETTINGS_KEY);
+	return JSON.parse(settings);
+};
+
+/**
+|--------------------------------------------------
+| Main API Functions
+|--------------------------------------------------
+*/
+
 async function loadFromCache() {
 	let rawData = await localforage.getItem(CACHE_DATA_KEY);
-	let rawSettings = await localforage.getItem(CACHE_SETTINGS_KEY);
 	let data = JSON.parse(rawData);
-	let settings = JSON.parse(rawSettings);
-	return { ...data, settings };
+	let setings = await loadCachedSettings();
+	return { ...data, setings };
 }
 
 async function loadFromApi(today_date) {
 	let res = await axios.get("/api/v1/companies/");
 	let roles = [];
 	let industry_options = [];
-	let departments = [];
+	let department_options = [];
 
 	res.data.companies.forEach((company) => {
 		// Create Roles & Departmetns List
 		company.open_roles.forEach((role) => {
-			if (departments.indexOf(role.department) === -1) departments.push(role.department);
+			let found = department_options.find(({ value }) => value === role.department);
+			if (!found && role.department !== "") {
+				let object = { value: role.department, label: role.department, checked: false };
+				department_options.push(object);
+			}
+
 			role = Object.assign(role, { company: company.name, logo: company.logo, industries: company.industries });
 			roles.push(role);
 		});
@@ -46,17 +73,21 @@ async function loadFromApi(today_date) {
 	});
 
 	let industries = { id: "industries", name: "Industries", options: industry_options };
-	let data = { companies: res.data.companies, roles, industries, departments };
+	let departments = { id: "departments", name: "Departments", options: department_options };
+	debugger;
+	let data = { companies: res.data.companies, roles, filters: [industries, departments] };
 
 	await localforage.setItem(CACHE_DATA_KEY, JSON.stringify(data));
 	await localforage.setItem(CACHE_LAST_UPDATE_KEY, today_date);
-	return data;
+	let settings = await loadCachedSettings();
+	return { ...data, settings };
 }
 
 export async function loadData() {
 	let today_date = moment().format("YYYY-MM-DD");
 	let last_update = await localforage.getItem(CACHE_LAST_UPDATE_KEY);
-	return today_date === last_update ? await loadFromCache() : await loadFromApi(today_date);
+	return loadFromApi(today_date);
+	// return today_date === last_update ? await loadFromCache() : await loadFromApi(today_date);
 }
 
 export async function saveInCache(settings) {

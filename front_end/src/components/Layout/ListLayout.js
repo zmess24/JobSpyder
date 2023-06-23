@@ -8,11 +8,11 @@ import { filterResults } from "../../constants/utlitiies";
 
 export default function ListLayout({ data, ListItemComponent, layoutCSS, filters, settings, filteredData, searchKey }) {
 	const INFINITE_SCROLL_STEP = 24;
-	debugger;
 	const [allData] = useState(data);
 	const [allIndustries, setAllIndustries] = useState(filters.industries);
 	const [allDepartments, setAllDepartments] = useState(filters.departments);
 
+	debugger;
 	// Search State Varibles
 	const [searchResults, setSearchResults] = useState(filteredData);
 	const [searchIndex, setSearchIndex] = useState(INFINITE_SCROLL_STEP);
@@ -123,7 +123,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 
 	return (
 		<>
-			<Header search={{ handleSearchTermChange, searchTerm }} filters={{ allIndustries, addFilter, removeFilter }} />
+			<Header search={{ handleSearchTermChange, searchTerm }} filters={{ filters, addFilter, removeFilter }} />
 			<div className="flex flex-row mt-3 justify-between">
 				<Results total={resultsTotal.toLocaleString("en-US")} />
 				<ActiveFilters activeOptions={activeIndustry} removeFilter={removeFilter} />

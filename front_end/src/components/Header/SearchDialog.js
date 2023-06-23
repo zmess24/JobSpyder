@@ -9,11 +9,12 @@ function classNames(...classes) {
 
 export default function SearchDialog({ filters, addFilter, removeFilter }) {
 	const [open, setOpen] = useState(false);
-
+	debugger;
 	const handleClick = (e, value, type) => {
 		e.target.checked === false ? removeFilter(value, type) : addFilter(value, type);
 	};
 
+	debugger;
 	return (
 		<div>
 			{/* Mobile filter dialog */}
