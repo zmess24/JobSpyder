@@ -10,12 +10,14 @@ export default function Companies() {
 		JobSpyderData: { companies, filters },
 	} = useOutletContext();
 
+	let filter = filters.find((filter) => filter.id === "industries");
+
 	return (
 		<ListLayout
 			data={companies}
 			ListItemComponent={CompanyItem}
 			layoutCSS={styles.companiesLayout}
-			filters={filters}
+			filters={[filter]}
 			searchKey={"name"}
 			settings={[]}
 		/>

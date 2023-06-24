@@ -3,6 +3,7 @@ import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import styles from "../../constants/styles";
+import { useOutletContext } from "react-router-dom";
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(" ");
@@ -117,7 +118,7 @@ export default function SearchDialog({ filters, addFilter, removeFilter }) {
 									{filters.map((section, sectionIdx) => (
 										<Popover key={section.name} className="relative inline-block px-4 text-left">
 											<Popover.Button
-												className={`inline-flex items-center gap-x-2 rounded-md px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm ${
+												className={`w-36 inline-flex justify-between items-center gap-x-2 rounded-md px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm ${
 													section.id === "industries" ? styles.industryFilterColor : styles.departmentFilterColor
 												}`}
 											>
