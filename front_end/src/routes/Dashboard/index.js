@@ -7,20 +7,21 @@ import styles from "../../constants/styles";
 import { filterResults } from "../../constants/utlitiies";
 
 export default function Dashboard() {
-	let fileredResults = [];
+	let filteredData = [];
 
 	let {
 		JobSpyderData: { roles, filters, settings },
 	} = useOutletContext();
 
 	if (settings.length > 0) {
-		fileredResults = filterResults({ searchTerm: "", searchKey: "title", filters: settings, filterKey: "industries", dataSet: roles });
+		filteredData = filterResults({ searchTerm: "", searchKey: "title", filters: settings, filterKey: "industries", dataSet: roles });
 	}
 
+	debugger;
 	return (
 		<ListLayout
 			data={roles}
-			filteredData={fileredResults}
+			filteredData={filteredData}
 			filters={filters}
 			ListItemComponent={RoleItem}
 			layoutCSS={styles.rolesLayout}

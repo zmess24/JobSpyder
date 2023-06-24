@@ -22,7 +22,9 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 	// Infinite Scroll State Variables
 	const [index, setIndex] = useState(INFINITE_SCROLL_STEP);
 	const [scroll, setScroll] = useState(true);
-	const [dataToRender, setDataToRender] = useState(data.slice(0, INFINITE_SCROLL_STEP));
+	const [dataToRender, setDataToRender] = useState(
+		settings.length > 0 ? filteredData.slice(0, INFINITE_SCROLL_STEP) : data.slice(0, INFINITE_SCROLL_STEP)
+	);
 
 	const resetSearch = () => {
 		setSearchResults([]);
@@ -39,7 +41,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 		setSearchResults(filteredResults);
 
 		setactiveFilters(filters);
-		await saveInCache(filters);
+		if (settings) await saveInCache(filters);
 	};
 
 	const removeFilter = async (value) => {
@@ -54,7 +56,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 		}
 
 		setactiveFilters(filters);
-		await saveInCache(filters);
+		if (settings) await saveInCache(filters);
 	};
 
 	// Filter State Varialbes
