@@ -1,4 +1,27 @@
-export function filterResults({ searchTerm, searchKey, filters, filterKey, dataSet }) {
+/**
+|--------------------------------------------------
+| Helper Functions
+|--------------------------------------------------
+*/
+
+const splitFiltersByType = (filters) => {
+	let departments = [];
+	let industries = [];
+
+	filters.forEach((filterObj) => {
+		filterObj.type === "department" ? departments.push(filterObj) : industries.push(filterObj);
+	});
+
+	return { departments, industries };
+};
+
+/**
+|--------------------------------------------------
+| Main Utility Functions
+|--------------------------------------------------
+*/
+
+export function filterResults({ searchTerm, searchKey, filters, dataSet }) {
 	// Slicing Function
 	let sliceIntoChunks = (arr, chunkSize) => {
 		const res = [];
@@ -11,20 +34,22 @@ export function filterResults({ searchTerm, searchKey, filters, filterKey, dataS
 
 	let arrays = sliceIntoChunks(dataSet, 100);
 	let arrayRef = [];
+	let { departments, industries } = splitFiltersByType(filters);
 
+	// debugger;
 	arrays.forEach((array) => {
 		let results = array.filter((data) => {
 			let formatted_role = data[searchKey].toLowerCase().replace(/ /g, "");
-
 			if (filters.length > 0) {
-				let filterFound = filters.find(({ value }) => data[filterKey].indexOf(value) > -1);
-				return filterFound ? formatted_role.indexOf(searchTerm) > -1 : false;
+				let industryFound = industries.length > 0 ? industries.find(({ value }) => data.industries.indexOf(value) > -1) : true;
+				let departmentFound = departments.length > 0 ? departments.find(({ value }) => data.departments === value) : true;
+
+				return industryFound && departmentFound ? formatted_role.indexOf(searchTerm) > -1 : false;
 			} else {
 				return formatted_role.indexOf(searchTerm) > -1;
 			}
 		});
 
-		console.log(results);
 		arrayRef = arrayRef.concat(results);
 	});
 

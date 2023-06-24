@@ -30,62 +30,33 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 		setDataToRender(allData.slice(0, index));
 	};
 
-	// Filter Results Function
-	const filterResults = ({ searchTerm, searchKey, filters, filterKey }) => {
-		// Slicing Function
-		let sliceIntoChunks = (arr, chunkSize) => {
-			const res = [];
-			for (let i = 0; i < arr.length; i += chunkSize) {
-				let chunk = arr.slice(i, i + chunkSize);
-				res.push(chunk);
-			}
-			return res;
-		};
-
-		let arrays = sliceIntoChunks(allData, 100);
-		let arrayRef = [];
-
-		arrays.forEach((array) => {
-			let results = array.filter((data) => {
-				let formatted_role = data[searchKey].toLowerCase().replace(/ /g, "");
-
-				if (filters.length > 0) {
-					let filterFound = filters.find(({ value }) => data[filterKey].indexOf(value) > -1);
-					return filterFound ? formatted_role.indexOf(searchTerm) > -1 : false;
-				} else {
-					return formatted_role.indexOf(searchTerm) > -1;
-				}
-			});
-
-			console.log(results);
-			arrayRef = arrayRef.concat(results);
-		});
-
-		if (arrayRef.length < INFINITE_SCROLL_STEP) setSearchScroll(false);
-		setDataToRender(arrayRef.slice(0, INFINITE_SCROLL_STEP));
-		setSearchResults(arrayRef);
-	};
-
 	// Handle Filter Change
 	const addFilter = async (value, type) => {
+		let filters = [...activeFilters, { value, label: value, type }];
 		debugger;
-		let industries = [...activeFilters, { value, label: value, type }];
-		filterResults({ searchTerm, searchKey, filters: industries, filterKey: type });
-		setactiveFilters(industries);
-		await saveInCache(industries);
+		let filteredResults = filterResults({ searchTerm, searchKey, filters, dataSet: allData });
+		debugger;
+		if (filteredResults.length < INFINITE_SCROLL_STEP) setSearchScroll(false);
+		setDataToRender(filteredResults.slice(0, INFINITE_SCROLL_STEP));
+		setSearchResults(filteredResults);
+
+		setactiveFilters(filters);
+		await saveInCache(filters);
 	};
 
-	const removeFilter = async (value, type) => {
-		let industries = activeFilters.filter((a) => a.value !== value);
-		console.log(industries.length);
-		if (industries.length === 0 && searchTerm === "") {
+	const removeFilter = async (value) => {
+		let filters = activeFilters.filter((a) => a.value !== value);
+		if (filters.length === 0 && searchTerm === "") {
 			resetSearch();
 		} else {
-			filterResults({ searchTerm, searchKey, filters: industries, filterKey: type });
+			let filteredResults = filterResults({ searchTerm, searchKey, filters, dataSet: allData });
+			if (filteredResults.length < INFINITE_SCROLL_STEP) setSearchScroll(false);
+			setDataToRender(filteredResults.slice(0, INFINITE_SCROLL_STEP));
+			setSearchResults(filteredResults);
 		}
 
-		setactiveFilters(industries);
-		await saveInCache(industries);
+		setactiveFilters(filters);
+		await saveInCache(filters);
 	};
 
 	// Filter State Varialbes
@@ -103,7 +74,6 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 		}
 	};
 
-	//
 	const handleSearchTermChange = (e) => {
 		setSearchTerm(e.target.value);
 		setSearchScroll(true);
@@ -112,7 +82,10 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 		if (e.target.value === "" && activeFilters.length === 0) {
 			resetSearch();
 		} else {
-			filterResults({ searchTerm, searchKey, filters: activeFilters, filterKey: "industries" });
+			let filteredResults = filterResults({ searchTerm, searchKey, filters: activeFilters, dataSet: allData });
+			if (filteredResults.length < INFINITE_SCROLL_STEP) setSearchScroll(false);
+			setDataToRender(filteredResults.slice(0, INFINITE_SCROLL_STEP));
+			setSearchResults(filteredResults);
 		}
 	};
 

@@ -23,6 +23,12 @@ const loadCachedSettings = async () => {
 	return JSON.parse(settings);
 };
 
+const sortFilterOptions = (a, b) => {
+	let aValue = a.value.split(" ")[0].toUpperCase();
+	let bValue = b.value.split(" ")[0].toUpperCase();
+	return aValue > bValue ? 1 : -1;
+};
+
 /**
 |--------------------------------------------------
 | Main API Functions
@@ -66,11 +72,9 @@ async function loadFromApi(today_date) {
 		});
 	});
 
-	industry_options.sort((a, b) => {
-		let aValue = a.value.split(" ")[0].toUpperCase();
-		let bValue = b.value.split(" ")[0].toUpperCase();
-		return aValue > bValue ? 1 : -1;
-	});
+	// Sort Filter Options Alphabetically
+	industry_options.sort(sortFilterOptions);
+	department_options.sort(sortFilterOptions);
 
 	let industries = { id: "industries", name: "Industries", options: industry_options };
 	let departments = { id: "department", name: "Departments", options: department_options };
@@ -85,6 +89,7 @@ async function loadFromApi(today_date) {
 export async function loadData() {
 	let today_date = moment().format("YYYY-MM-DD");
 	let last_update = await localforage.getItem(CACHE_LAST_UPDATE_KEY);
+	return await loadFromApi(today_date);
 	return today_date === last_update ? await loadFromCache() : await loadFromApi(today_date);
 }
 

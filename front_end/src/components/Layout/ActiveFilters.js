@@ -2,7 +2,6 @@ import React from "react";
 import styles from "../../constants/styles";
 
 export default function ActiveFilters({ activeOptions, removeFilter }) {
-	debugger;
 	return (
 		<div className="bg-gray-100">
 			<div className="mx-auto max-w-7xl px-4 sm:flex sm:items-center sm:px-6 lg:px-8">

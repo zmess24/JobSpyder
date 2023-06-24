@@ -13,8 +13,6 @@ export default function SearchDialog({ filters, addFilter, removeFilter }) {
 	const handleClick = (e, value, type) => {
 		e.target.checked === false ? removeFilter(value, type) : addFilter(value, type);
 	};
-
-	debugger;
 	return (
 		<div>
 			{/* Mobile filter dialog */}
