@@ -10,7 +10,6 @@ export default function Companies() {
 		JobSpyderData: { companies, filters },
 	} = useOutletContext();
 
-	debugger;
 	return (
 		<ListLayout
 			data={companies}

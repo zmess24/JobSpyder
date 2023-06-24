@@ -42,8 +42,9 @@ export function filterResults({ searchTerm, searchKey, filters, dataSet }) {
 			let formatted_role = data[searchKey].toLowerCase().replace(/ /g, "");
 			if (filters.length > 0) {
 				let industryFound = industries.length > 0 ? industries.find(({ value }) => data.industries.indexOf(value) > -1) : true;
-				let departmentFound = departments.length > 0 ? departments.find(({ value }) => data.departments === value) : true;
+				let departmentFound = departments.length > 0 ? departments.find(({ value }) => data.department === value) : true;
 
+				debugger;
 				return industryFound && departmentFound ? formatted_role.indexOf(searchTerm) > -1 : false;
 			} else {
 				return formatted_role.indexOf(searchTerm) > -1;

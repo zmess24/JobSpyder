@@ -33,9 +33,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 	// Handle Filter Change
 	const addFilter = async (value, type) => {
 		let filters = [...activeFilters, { value, label: value, type }];
-		debugger;
 		let filteredResults = filterResults({ searchTerm, searchKey, filters, dataSet: allData });
-		debugger;
 		if (filteredResults.length < INFINITE_SCROLL_STEP) setSearchScroll(false);
 		setDataToRender(filteredResults.slice(0, INFINITE_SCROLL_STEP));
 		setSearchResults(filteredResults);
