@@ -7,7 +7,7 @@ import styles from "../../constants/styles";
 
 export default function Companies() {
 	const {
-		JobSpyderData: { companies, industries, departments },
+		JobSpyderData: { companies, filters },
 	} = useOutletContext();
 
 	debugger;
@@ -16,7 +16,7 @@ export default function Companies() {
 			data={companies}
 			ListItemComponent={CompanyItem}
 			layoutCSS={styles.companiesLayout}
-			filters={{ industries, departments }}
+			filters={filters}
 			searchKey={"name"}
 			settings={[]}
 		/>
