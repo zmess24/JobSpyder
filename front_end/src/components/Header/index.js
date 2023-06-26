@@ -4,7 +4,7 @@ import SearchDialog from "./SearchDialog";
 
 export default function Header({ search, filters }) {
 	return (
-		<header className="w-full mb-5 flex flex-1 flex-row justify-between">
+		<header className="w-full mb-5 flex flex-1 lg:flex-row justify-between">
 			<Search handleChange={search.handleSearchTermChange} searchTerm={search.searchTerm} placeholder={"Search"} />
 			<SearchDialog filters={filters.filters} addFilter={filters.addFilter} removeFilter={filters.removeFilter} />
 		</header>

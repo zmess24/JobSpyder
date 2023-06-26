@@ -93,7 +93,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 	let resultsTotal = searchTerm || activeFilters.length > 0 ? searchResults.length : allData.length;
 
 	return (
-		<>
+		<section className="px-4">
 			<Header search={{ handleSearchTermChange, searchTerm }} filters={{ filters, addFilter, removeFilter }} />
 			<div className="flex flex-row mt-3 justify-between">
 				<Results total={resultsTotal.toLocaleString("en-US")} />
@@ -107,6 +107,6 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 						})}
 				</ul>
 			</InfiniteScroll>
-		</>
+		</section>
 	);
 }

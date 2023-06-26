@@ -15,7 +15,7 @@ export default function SearchDialog({ filters, addFilter, removeFilter }) {
 		e.target.checked === false ? removeFilter(value, type) : addFilter(value, type);
 	};
 	return (
-		<div>
+		<div className="flex lg:flex-col sm:flex-row">
 			{/* Mobile filter dialog */}
 			<Transition.Root show={open} as={Fragment}>
 				<Dialog as="div" className="relative z-40 sm:hidden" onClose={setOpen}>
@@ -111,8 +111,8 @@ export default function SearchDialog({ filters, addFilter, removeFilter }) {
 				</h2>
 
 				<div className="">
-					<div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-						<div className="hidden sm:block">
+					<div className="mx-auto flex max-w-7xl items-center justify-between">
+						<div className="sm:block">
 							<div className="flow-root">
 								<Popover.Group className="-mx-4 flex items-center divide-x divide-gray-200 ">
 									{filters.map((section, sectionIdx) => (
