@@ -19,7 +19,7 @@ export default function Company() {
 	if (!company) return <ErrorPage />;
 
 	return (
-		<>
+		<div>
 			<CompanyHeader company={company} />
 			<ListLayout
 				data={company.open_roles}
@@ -29,6 +29,6 @@ export default function Company() {
 				searchKey={"title"}
 				settings={[]}
 			/>
-		</>
+		</div>
 	);
 }

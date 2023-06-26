@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, createRoutesFromElements, createBrowserRouter } from "react-router-dom";
 // Page Elements
-import Companies, { loader as companiesLoader } from "./routes/Companies";
+import Companies from "./routes/Companies";
 import Dashboard from "./routes/Dashboard";
 import Roles from "./routes/Roles";
 import Company from "./routes/Companies/Company";

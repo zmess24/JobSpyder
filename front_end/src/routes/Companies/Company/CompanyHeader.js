@@ -8,7 +8,7 @@ const stats = [
 
 export default function CompanyHeader({ company }) {
 	return (
-		<div className="overflow-hidden rounded-lg bg-white shadow mb-5">
+		<div className="overflow-hidden rounded-lg bg-white shadow mb-5 mx-4">
 			<h2 className="sr-only" id="profile-overview-title">
 				Profile Overview
 			</h2>
