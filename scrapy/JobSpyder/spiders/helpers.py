@@ -5,9 +5,9 @@ def categorize_department(d):
         return "Leadership"
     elif re.search(r"(sales|solutions|solution|value) (engineer|architecture|engineering)", d.lower()):
         return "Solutions Engineering"
-    elif re.search("HR|People|Talent|Recruiting", d):
+    elif re.search("HR|People|Talent|Recruiting|Human", d):
         return "People"
-    elif re.search("finance|financial|accounting|payroll", d.lower()):
+    elif re.search("finance|financial|accounting|payroll|banking|fund ", d.lower()):
         return "Finance"
     elif "security" in d.lower() or "fraud" in d.lower():
         return "Security"
@@ -21,7 +21,7 @@ def categorize_department(d):
         return "Business Development & Strategy"
     elif "product" in d.lower() or "platform" in d.lower():
         return "Product"
-    elif re.search("legal|g&a|general & admin|compliance", d.lower()):
+    elif re.search("legal|g&a|general & admin|compliance|licensing", d.lower()):
         return "Legal"
     elif re.search("IT|information technology", d.lower()):
         return "IT"
@@ -33,7 +33,7 @@ def categorize_department(d):
         return "Communications"
     elif "IT" in d or "information tech" in d.lower():
         return "IT"
-    elif "marketing" in d.lower():
+    elif re.search("marketing|marketplace", d.lower()):
         return "Marketing"
     elif re.search("sales|go-to-market|go to market|solutions|account exec|upsell|growth",d.lower()) or "AE" in d:
         return "Sales"
@@ -69,5 +69,15 @@ def categorize_department(d):
         return "Fufillment"
     elif "early" in d.lower():
         return "Entry Level"
+    elif re.search("technology", d.lower()):
+        return "Technology"
+    elif re.search("retail", d.lower()):
+        return "Retail"
+    elif re.search("program manage", d.lower()):
+        return "Program Management"
+    elif re.search("molecular", d.lower()):
+        return "Biology"
+    elif re.search("global workforce", d.lower()):
+        return "Global Workforce"
     else:
          return d

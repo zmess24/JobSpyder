@@ -2,11 +2,11 @@ import React from "react";
 import { Route, createRoutesFromElements, createBrowserRouter } from "react-router-dom";
 // Page Elements
 import Companies, { loader as companiesLoader } from "./routes/Companies";
+import Dashboard from "./routes/Dashboard";
 import Roles from "./routes/Roles";
 import Company from "./routes/Companies/Company";
 import NavLayout, { loader as rootLoader } from "./components/Layout/NavLayout";
 import ErrorPage from "./error-page";
-import Dashboard from "./routes/Dashboard";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(

@@ -36,7 +36,6 @@ export function filterResults({ searchTerm, searchKey, filters, dataSet }) {
 	let arrayRef = [];
 	let { departments, industries } = splitFiltersByType(filters);
 
-	debugger;
 	arrays.forEach((array) => {
 		let results = array.filter((data) => {
 			let formatted_role = data[searchKey].toLowerCase().replace(/ /g, "");
