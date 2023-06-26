@@ -3,7 +3,6 @@ import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import styles from "../../constants/styles";
-import { useOutletContext } from "react-router-dom";
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(" ");
@@ -14,6 +13,7 @@ export default function SearchDialog({ filters, addFilter, removeFilter }) {
 	const handleClick = (e, value, type) => {
 		e.target.checked === false ? removeFilter(value, type) : addFilter(value, type);
 	};
+
 	return (
 		<div className="flex flex-col md:flex-col sm:flex-row justify-center">
 			{/* Mobile filter dialog */}

@@ -1,7 +1,7 @@
 import re
 
 def categorize_department(d):
-    if re.search(r"C[A-Z]O", d) or "VP" in d or "leadership" in d.lower():
+    if re.search(r"(C[A-Z]O|VP|Executive)", d) or "leadership" in d.lower():
         return "Leadership"
     elif re.search(r"(sales|solutions|solution|value) (engineer|architecture|engineering)", d.lower()):
         return "Solutions Engineering"
@@ -13,7 +13,7 @@ def categorize_department(d):
         return "Security"
     elif "research" in d.lower() or "r&d" in d.lower():
         return "Research"
-    elif re.match(r"(customer|client|partner|company|technical) success", d.lower()) or re.search("customer|client services|account management",d.lower()):
+    elif re.match(r"(customer|client|partner|company|technical) success", d.lower()) or re.search("customer|client services|account management|success",d.lower()):
         return "Customer Success"
     elif "hardware" in d.lower():
         return "Hardware"
@@ -27,15 +27,15 @@ def categorize_department(d):
         return "IT"
     elif "internship" in d.lower():
         return "Internship"
-    elif re.search("data scien|machine learning|ml", d.lower()) or "AI" in d:
-        return "ML & Data Science"
+    elif re.search("data scien|machine learning|ml|algorithm|data", d.lower()) or "AI" in d:
+        return "ML, Data Science, & Data"
     elif re.search("communications|translation|translator", d.lower()):
         return "Communications"
     elif "IT" in d or "information tech" in d.lower():
         return "IT"
     elif "marketing" in d.lower():
         return "Marketing"
-    elif re.search("sales|go-to-market|go to market|solutions|account exec",d.lower()):
+    elif re.search("sales|go-to-market|go to market|solutions|account exec|upsell|growth",d.lower()) or "AE" in d:
         return "Sales"
     elif "clinical" in d.lower():
         return "Clinical"
@@ -47,9 +47,27 @@ def categorize_department(d):
         return "Operations"
     elif "support" in d.lower():
         return "Support"
-    elif re.search("engineering|software|frontend|full stack|fullstack|mobile|web", d.lower()):
+    elif re.search("engineering|software|frontend|full stack|fullstack|mobile|web|android", d.lower()):
         return "Engineering"
     elif "brand" in d.lower():
         return "Branding"
+    elif "revenue" in d.lower():
+        return "Sales Ops"
+    elif "quality" in d.lower() or "QA" in d:
+        return "Quality Assurance"
+    elif "payments" in d.lower():
+        return "Payments"
+    elif "onboarding" in d.lower() or "implementation" in d.lower():
+        return "Implementation Team"
+    elif "supply" in d.lower():
+        return "Supply Chain"
+    elif re.search("analytics|analyst|consulting|analysis", d.lower()):
+        return "Consulting and Analysis"
+    elif re.search("design|creative|experience", d.lower()):
+        return "UX, Design & Creative"
+    elif "warehous" in d.lower():
+        return "Fufillment"
+    elif "early" in d.lower():
+        return "Entry Level"
     else:
          return d

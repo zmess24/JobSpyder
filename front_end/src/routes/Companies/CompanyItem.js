@@ -12,7 +12,10 @@ export default function CompanyItem({ data }) {
 					<dd className="mt-3">
 						{data.industries.map((industry) => {
 							return (
-								<span className="inline-flex items-center rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-600/20 mx-0.5 my-0.5">
+								<span
+									key={industry}
+									className="inline-flex items-center rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-600/20 mx-0.5 my-0.5"
+								>
 									{industry}
 								</span>
 							);
@@ -23,7 +26,7 @@ export default function CompanyItem({ data }) {
 			<div>
 				<div className="-mt-px flex divide-x divide-gray-200">
 					{data.open_roles.length > 0 && (
-						<div className="flex w-0 flex-1">
+						<div key={data._id} className="flex w-0 flex-1">
 							<Link
 								to={`/companies/${data._id}`}
 								state={{ data }}

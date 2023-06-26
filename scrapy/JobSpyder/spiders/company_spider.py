@@ -3,6 +3,8 @@ from ..items import (
     CompanyItem, RoleItem
 )
 
+from . import helpers
+
 SELECTOR_MAP = {
     "topstartups": {
         "COMPANY_SELECTOR" : "#item-card-filter",
@@ -41,10 +43,11 @@ class CompanySpider(scrapy.Spider):
             return ""
         else:
             return url
+
     
     def sanitize_deparment(self, department):
         if department != None:
-            return department.lstrip().rstrip()
+            return helpers.categorize_department(department.lstrip().rstrip())
         else:
              return "Other"
     

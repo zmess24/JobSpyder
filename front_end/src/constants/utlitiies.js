@@ -9,7 +9,7 @@ const splitFiltersByType = (filters) => {
 	let industries = [];
 
 	filters.forEach((filterObj) => {
-		filterObj.type === "department" ? departments.push(filterObj) : industries.push(filterObj);
+		filterObj.type === "departments" ? departments.push(filterObj) : industries.push(filterObj);
 	});
 
 	return { departments, industries };
@@ -36,6 +36,7 @@ export function filterResults({ searchTerm, searchKey, filters, dataSet }) {
 	let arrayRef = [];
 	let { departments, industries } = splitFiltersByType(filters);
 
+	debugger;
 	arrays.forEach((array) => {
 		let results = array.filter((data) => {
 			let formatted_role = data[searchKey].toLowerCase().replace(/ /g, "");

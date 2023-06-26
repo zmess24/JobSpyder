@@ -1,17 +1,31 @@
 // Importing modules
-import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import JobItem from "./JobItem";
+import React from "react";
+import { useOutletContext } from "react-router-dom";
+import RoleItem from "../../Roles/RoleItem";
 import ListLayout from "../../../components/Layout/ListLayout";
 import CompanyHeader from "./CompanyHeader";
+import styles from "../../../constants/styles";
 
 export default function Company() {
-	let { state } = useLocation();
-	const layoutCSS = "grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 mt-5 pb-10";
+	const {
+		JobSpyderData: { companies, filters },
+	} = useOutletContext();
+
+	let companyId = "_" + window.location.pathname.split("_")[1];
+	let company = companies.find((c) => c._id === companyId);
+	let filter = filters.find((filter) => filter.id === "departments");
+
 	return (
 		<>
-			<CompanyHeader company={state.data} />
-			<ListLayout data={state.data.open_roles} ListItemComponent={JobItem} layoutCSS={layoutCSS} searchKey={"title"} />
+			<CompanyHeader company={company} />
+			<ListLayout
+				data={company.open_roles}
+				ListItemComponent={RoleItem}
+				layoutCSS={styles.rolesLayout}
+				filters={[filter]}
+				searchKey={"title"}
+				settings={[]}
+			/>
 		</>
 	);
 }

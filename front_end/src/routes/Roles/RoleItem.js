@@ -1,6 +1,5 @@
-import React, { Fragment } from "react";
-import { LinkIcon, EllipsisHorizontalIcon } from "@heroicons/react/20/solid";
-import { Menu, Transition } from "@headlessui/react";
+import React from "react";
+import { LinkIcon } from "@heroicons/react/20/solid";
 
 export default function RoleItem({ data, keyValue }) {
 	return (
@@ -38,6 +37,7 @@ export default function RoleItem({ data, keyValue }) {
 						<a
 							href={data.link}
 							target="_blank"
+							rel="noreferrer"
 							className="cursor-pointer relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold text-gray-900"
 						>
 							<LinkIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />

@@ -3,10 +3,6 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { NavLink } from "react-router-dom";
 import MobileMenu from "./MobileMenu";
 
-function classNames(...classes) {
-	return classes.filter(Boolean).join(" ");
-}
-
 export default function Navbar() {
 	let ActiveLink = "inline-flex items-center border-b-2 border-indigo-500 px-1 pt-1 text-sm font-medium text-gray-900";
 	let InactiveLink =
@@ -19,8 +15,8 @@ export default function Navbar() {
 						<div className="flex h-16 justify-between">
 							<div className="flex">
 								<div className="flex flex-shrink-0 items-center">
-									<img className="block h-12 w-auto lg:hidden" src="js-logo.png" alt="Your Company" />
-									<img className="hidden h-12 w-auto lg:block" src="js-logo.png" alt="Your Company" />
+									<img className="block h-12 w-auto lg:hidden" src="./js-logo.png" alt="Your Company" />
+									<img className="hidden h-12 w-auto lg:block" src="./js-logo.png" alt="Your Company" />
 								</div>
 								<div className="hidden sm:ml-6 sm:flex sm:space-x-8">
 									<NavLink

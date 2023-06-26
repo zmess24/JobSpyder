@@ -100,7 +100,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 				<ActiveFilters activeOptions={activeFilters} removeFilter={removeFilter} />
 			</div>
 			<InfiniteScroll dataLength={dataToRender.length} next={loadData} hasMore={scrollState} loader={<p>Loading...</p>}>
-				<ul role="list" className={layoutCSS}>
+				<ul className={layoutCSS}>
 					{dataToRender &&
 						dataToRender.map((role) => {
 							return <ListItemComponent data={role} />;
