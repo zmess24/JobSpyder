@@ -3,7 +3,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 
 export default function Search({ handleChange, searchTerm, placeholder }) {
 	return (
-		<div className="flex lg:flex-col sm:flex-row w-3/12">
+		<div className="flex lg:flex-col justify-center sm:flex-row md:w-1/2 ">
 			<div className="w-full max-w-lg lg:max-w-xs">
 				<label htmlFor="search" className="sr-only">
 					Search
