@@ -1,11 +1,5 @@
 import React from "react";
 
-const stats = [
-	{ label: "Vacation days left", value: 12 },
-	{ label: "Sick days left", value: 4 },
-	{ label: "Personal days left", value: 2 },
-];
-
 export default function CompanyHeader({ company }) {
 	return (
 		<div className="overflow-hidden rounded-lg bg-white shadow mb-5 mx-4">
