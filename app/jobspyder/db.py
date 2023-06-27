@@ -28,14 +28,3 @@ db = LocalProxy(get_db)
 def get_companies():
     results = db.companies.find({}).sort( "name", 1)
     return list(results)
-
-def get_roles():
-    results = db.companies.aggregate([
-        {"$unwind": "$open_roles"},
-        {"$group": 
-            {"_id": "$_id", 
-            "open_roles": {"$push": "$episodes"},
-            }
-        }
-    ]).limit(100)
-    return list(results)

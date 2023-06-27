@@ -36,7 +36,6 @@ def create_app():
     CORS(app)
     app.json_encoder = MongoJsonEncoder
     app.register_blueprint(companies_api_v1)
-    app.register_blueprint(roles_api_v1)
 
     @app.route('/', defaults={'path': ''})
     @app.route('/<path:path>')
