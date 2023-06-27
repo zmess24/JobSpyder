@@ -13,7 +13,6 @@ CORS(companies_api_v1)
 
 @companies_api_v1.route('/', methods=['GET'])
 def api_get_movies():
-    COMPANIES_PER_PAGE = 20
 
     companies = get_companies()
 

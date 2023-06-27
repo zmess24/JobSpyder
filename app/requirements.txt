@@ -5,3 +5,5 @@ itemadapter==0.3.0
 pymongo==4.3.3
 python-dotenv==1.0.0
 Werkzeug==2.2.2
+gunicorn
+scrapy
