@@ -83,13 +83,13 @@ async function loadFromApi(today_date) {
 	await localforage.setItem(CACHE_DATA_KEY, JSON.stringify(data));
 	await localforage.setItem(CACHE_LAST_UPDATE_KEY, today_date);
 	let settings = await loadCachedSettings();
+	settings = !settings ? [] : settings;
 	return { ...data, settings };
 }
 
 export async function loadData() {
 	let today_date = moment().format("YYYY-MM-DD");
 	let last_update = await localforage.getItem(CACHE_LAST_UPDATE_KEY);
-	// return await loadFromApi(today_date);
 	return today_date === last_update ? await loadFromCache() : await loadFromApi(today_date);
 }
 
