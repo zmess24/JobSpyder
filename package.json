@@ -4,6 +4,7 @@
 	"description": "",
 	"scripts": {
 		"heroku:deploy": "git subtree push --prefix app heroku main",
+		"heroku:kill": "heroku ps:scale web=0 --app jobspyder",
 		"dev": "python app/app.py"
 	},
 	"repository": {
