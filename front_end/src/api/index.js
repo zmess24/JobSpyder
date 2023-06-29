@@ -39,6 +39,7 @@ async function loadFromCache() {
 	let rawData = await localforage.getItem(CACHE_DATA_KEY);
 	let data = JSON.parse(rawData);
 	let settings = await loadCachedSettings();
+	settings = !settings ? [] : settings;
 	return { ...data, settings };
 }
 
@@ -83,6 +84,7 @@ async function loadFromApi(today_date) {
 	await localforage.setItem(CACHE_DATA_KEY, JSON.stringify(data));
 	await localforage.setItem(CACHE_LAST_UPDATE_KEY, today_date);
 	let settings = await loadCachedSettings();
+	debugger;
 	settings = !settings ? [] : settings;
 	return { ...data, settings };
 }

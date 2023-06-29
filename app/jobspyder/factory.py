@@ -37,7 +37,9 @@ def create_app():
     app.register_blueprint(companies_api_v1)
 
     @app.route('/', defaults={'path': ''})
+
     @app.route('/<path:path>')
+    
     def serve(path):
         return render_template('index.html')
 

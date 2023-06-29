@@ -13,6 +13,7 @@ export default function Dashboard() {
 		JobSpyderData: { roles, filters, settings },
 	} = useOutletContext();
 
+	debugger;
 	if (settings.length > 0) {
 		filteredData = filterResults({ searchTerm: "", searchKey: "title", filters: settings, filterKey: "industries", dataSet: roles });
 	}
