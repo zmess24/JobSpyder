@@ -5,11 +5,15 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-import os
-
 if __name__ == "__main__":
-    app = create_app()
-    app.config['DEBUG'] = True
-    app.config['MONGO_URI'] = os.getenv('MONGODB_URI_DEV')
-    app.config['MONGO_URI'] = os.getenv('MONGODB_URI_DEV')
-    app.run()
+    application = create_app()
+    application.config['DEBUG'] = True
+    application.config['MONGO_URI'] = os.getenv('MONGODB_URI_DEV')
+    application.config['MONGO_URI'] = os.getenv('MONGODB_URI_DEV')
+    application.run()
+
+if __name__ == "app":
+    application = create_app()
+    application.config['MONGO_URI'] = os.getenv('MONGODB_URI_DEV')
+    application.config['MONGO_URI'] = os.getenv('MONGODB_URI_DEV')
+    application.run()
