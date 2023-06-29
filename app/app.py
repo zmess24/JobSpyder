@@ -6,15 +6,15 @@ from dotenv import load_dotenv
 load_dotenv()
 
 if __name__ == "__main__":
-    print("ENTERING HEROKU!")
-    application = create_app()
-    application.config['DEBUG'] = True
-    application.config['MONGO_URI'] = os.getenv('MONGODB_URI_DEV')
-    application.run()
+    print("Entering Dev Server...")
+    app = create_app()
+    app.config['DEBUG'] = True
+    app.config['MONGO_URI'] = os.getenv('MONGODB_URI_DEV')
+    # app.run()
 
 if __name__ == "app":
-    # from waitress import serve
-    application = create_app()
-    application.config['MONGO_URI'] = os.getenv('MONGODB_URI_DEV')
-    application.run()
-    # serve(application, host="0.0.0.0", port=8080)
+    print("Entering Prod Server...")
+    app = create_app()
+    app.config['MONGO_URI'] = os.getenv('MONGODB_URI_DEV')
+    # application.run()
+    
