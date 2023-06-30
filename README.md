@@ -4,7 +4,7 @@ A flask application that serves a react front-end, which scrapes open roles from
 
 ## How it Works
 
-JobSpyder scrapes all open listings from a curated set of companies through greenhouse.io & lever.com every morning at 9:00AM (with some data-scrubbin, and stores them in MongoDB via the Atlas cloud database.
+JobSpyder scrapes & scrubs all open listings from a curated set of companies through greenhouse.io & lever.com every morning at 9:00AM, and stores them in MongoDB via the Atlas cloud database.
 
 JobSpyder additionally leverages client-side caching to save all chosen job filter settings without the user needing to log-in, in order
 
