@@ -8,3 +8,4 @@ Werkzeug==2.2.2
 waitress==2.1.2
 gunicorn
 scrapy
+scrapy_user_agents
