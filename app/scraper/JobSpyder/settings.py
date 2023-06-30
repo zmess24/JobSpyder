@@ -13,8 +13,8 @@ load_dotenv()
 
 BOT_NAME = "JobSpyder"
 
-SPIDER_MODULES = ["JobSpyder.spiders"]
-NEWSPIDER_MODULE = "JobSpyder.spiders"
+SPIDER_MODULES = ["scraper.JobSpyder.spiders"]
+NEWSPIDER_MODULE = "scraper.JobSpyder.spiders"
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -36,7 +36,7 @@ ROBOTSTXT_OBEY = False
 
 # Disable cookies (enabled by default)
 COOKIES_ENABLED = False
-# LOG_LEVEL = 'WARNING'
+LOG_LEVEL = 'WARNING'
 
 # Disable Telnet Console (enabled by default)
 #TELNETCONSOLE_ENABLED = False
@@ -69,7 +69,7 @@ DOWNLOADER_MIDDLEWARES = {
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-ITEM_PIPELINES = {'JobSpyder.pipelines.MongoDBPipeline': 100}
+ITEM_PIPELINES = {'scraper.JobSpyder.pipelines.MongoDBPipeline': 100}
 
 # MongoDB Database
 MONGODB_URI = os.getenv('MONGODB_URI_DEV')
