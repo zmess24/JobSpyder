@@ -48,6 +48,7 @@ async function loadFromApi(today_date) {
 	let roles = [];
 	let industry_options = [];
 	let department_options = [];
+	let location_options = [];
 
 	res.data.companies.forEach((company) => {
 		// Create Roles & Departmetns List
@@ -56,6 +57,12 @@ async function loadFromApi(today_date) {
 			if (!found && role.department !== "") {
 				let object = { value: role.department, label: role.department, checked: false };
 				department_options.push(object);
+			}
+
+			let location = location_options.find(({ value }) => value === role.location);
+			if (!location && role.location !== "") {
+				let object = { value: role.location, label: role.location, checked: false };
+				location_options.push(object);
 			}
 
 			role = Object.assign(role, { company: company.name, logo: company.logo, industries: company.industries });
@@ -73,6 +80,7 @@ async function loadFromApi(today_date) {
 		});
 	});
 
+	debugger;
 	// Sort Filter Options Alphabetically
 	industry_options.sort(sortFilterOptions);
 	department_options.sort(sortFilterOptions);
@@ -84,7 +92,6 @@ async function loadFromApi(today_date) {
 	await localforage.setItem(CACHE_DATA_KEY, JSON.stringify(data));
 	await localforage.setItem(CACHE_LAST_UPDATE_KEY, today_date);
 	let settings = await loadCachedSettings();
-	debugger;
 	settings = !settings ? [] : settings;
 	return { ...data, settings };
 }
@@ -92,7 +99,8 @@ async function loadFromApi(today_date) {
 export async function loadData() {
 	let today_date = moment().format("YYYY-MM-DD");
 	let last_update = await localforage.getItem(CACHE_LAST_UPDATE_KEY);
-	return today_date === last_update ? await loadFromCache() : await loadFromApi(today_date);
+	return await loadFromApi(today_date);
+	// return today_date === last_update ? await loadFromCache() : await loadFromApi(today_date);
 }
 
 export async function saveInCache(settings) {

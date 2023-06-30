@@ -56,6 +56,12 @@ class CompanySpider(scrapy.Spider):
             return industries
         else:
             return list(map(lambda i: i.strip().title(), industries))
+        
+    def santize_role_link(self, link):
+        if "https" in link:
+            return link
+        else:
+            return f"https://boards.greenhouse.io{link}"
             
     def grab_job_board_name(self, job_board):
         job_board_name = None
@@ -90,7 +96,7 @@ class CompanySpider(scrapy.Spider):
                     link = opening.css(SELECTOR_MAP[job_board_name]['LINK_SELECTOR']).extract_first()
 
                     if job_board_name == 'greenhouse':
-                         link = f"https://boards.greenhouse.io{opening.css(SELECTOR_MAP[job_board_name]['LINK_SELECTOR']).extract_first()}"   
+                         link = self.santize_role_link(link)   
 
                     role = RoleItem(
                         title = opening.css(SELECTOR_MAP[job_board_name]['TITLE_SELECTOR']).extract_first(),

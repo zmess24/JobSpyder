@@ -6,7 +6,8 @@
 		"heroku:deploy": "git subtree push --prefix app heroku main",
 		"heroku:kill": "heroku ps:scale web=0 --app jobspyder",
 		"heroku:scale": "heroku ps:scale web=1 --app jobspyder",
-		"dev": "python app/app.py"
+		"install:dependencies": "cd app && python -m pip install -r app/requirements.txt    ",
+		"serve:dev": "flask app/app.py"
 	},
 	"repository": {
 		"type": "git",
