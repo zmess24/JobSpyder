@@ -7,7 +7,7 @@
 		"heroku:kill": "heroku ps:scale web=0 --app jobspyder",
 		"heroku:scale": "heroku ps:scale web=1 --app jobspyder",
 		"install:dependencies": "cd app && python -m pip install -r app/requirements.txt    ",
-		"serve:dev": "flask app/app.py"
+		"serve:dev": "flask run app/app.py"
 	},
 	"repository": {
 		"type": "git",
