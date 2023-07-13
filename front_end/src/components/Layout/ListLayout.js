@@ -13,7 +13,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 	// Search State Varibles
 	const [searchResults, setSearchResults] = useState(filteredData);
 	const [searchIndex, setSearchIndex] = useState(INFINITE_SCROLL_STEP);
-	const [searchScroll, setSearchScroll] = useState(true);
+	const [searchScroll, setSearchScroll] = useState(filteredData > INFINITE_SCROLL_STEP ? true : false);
 	const [searchTerm, setSearchTerm] = useState("");
 
 	// Industry Filter State Varibles
@@ -34,26 +34,30 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 		setDataToRender(allData.slice(0, index));
 	};
 
+	const updateAllFilters = (value, type) => {
+		let industryIndex = allFilters.findIndex((o) => o.id === type);
+		let optionIndex = allFilters[industryIndex].options.findIndex((o) => o.value === value);
+		allFilters[industryIndex].options[optionIndex].checked = !allFilters[industryIndex].options[optionIndex].checked;
+		setAllFilters(allFilters);
+		return allFilters;
+	};
+
 	// Handle Filter Change
 	const addFilter = async (value, type) => {
 		let filters = [...activeFilters, { value, label: value, type }];
 		let filteredResults = filterResults({ searchTerm, searchKey, filters, dataSet: allData });
+		let updatedAllFilters = updateAllFilters(value, type);
 		if (filteredResults.length < INFINITE_SCROLL_STEP) setSearchScroll(false);
 		setDataToRender(filteredResults.slice(0, INFINITE_SCROLL_STEP));
 		setSearchResults(filteredResults);
 		setActiveFilters(filters);
 
-		// Update Filter Options List
-		let industryIndex = allFilters.findIndex((o) => o.id === type);
-		let optionIndex = allFilters[industryIndex].options.findIndex((o) => o.value === value);
-		allFilters[industryIndex].options[optionIndex].checked = !allFilters[industryIndex].options[optionIndex].checked;
-		setAllFilters(allFilters);
-
-		if (settings) await saveInCache({ activeFilters: filters, allFilters });
+		if (settings) await saveInCache({ activeFilters: filters, allFilters: updatedAllFilters });
 	};
 
 	const removeFilter = async (value, type) => {
 		let filters = activeFilters.filter((a) => a.value !== value);
+		let updatedAllFilters = updateAllFilters(value, type);
 		if (filters.length === 0 && searchTerm === "") {
 			resetSearch();
 		} else {
@@ -63,17 +67,8 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 			setSearchResults(filteredResults);
 		}
 
-		// Update Filter Options List
-		debugger;
-
-		let industryIndex = allFilters.findIndex((o) => o.id === type);
-		let optionIndex = allFilters[industryIndex].options.findIndex((o) => o.value === value);
-		allFilters[industryIndex].options[optionIndex].checked = !allFilters[industryIndex].options[optionIndex].checked;
-		setAllFilters(allFilters);
-
 		setActiveFilters(filters);
-		if (settings) await saveInCache({ activeFilters: filters, allFilters });
-		// if (settings) await saveInCache(filters);
+		if (settings) await saveInCache({ activeFilters: filters, allFilters: updatedAllFilters });
 	};
 
 	// Filter State Varialbes
@@ -106,6 +101,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 		}
 	};
 
+	// Chose which results list to use depending on if there is an active search
 	let scrollState = searchTerm || activeFilters.length > 0 ? searchScroll : scroll;
 	let resultsTotal = searchTerm || activeFilters.length > 0 ? searchResults.length : allData.length;
 

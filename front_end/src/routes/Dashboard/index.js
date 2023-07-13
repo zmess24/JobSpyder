@@ -22,8 +22,6 @@ export default function Dashboard() {
 		});
 	}
 
-	debugger;
-
 	return (
 		<ListLayout
 			data={roles}
