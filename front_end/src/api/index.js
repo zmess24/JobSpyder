@@ -99,7 +99,8 @@ async function loadFromApi(today_date) {
 export async function loadData() {
 	let today_date = moment().format("YYYY-MM-DD");
 	let last_update = await localforage.getItem(CACHE_LAST_UPDATE_KEY);
-	return today_date === last_update ? await loadFromCache() : await loadFromApi(today_date);
+	return await loadFromCache();
+	// return today_date === last_update ? await loadFromCache() : await loadFromApi(today_date);
 }
 
 export async function saveInCache(settings) {

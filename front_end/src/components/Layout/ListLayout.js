@@ -18,6 +18,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 
 	// Industry Filter State Varibles
 	const [activeFilters, setactiveFilters] = useState(settings);
+	const [allFilters, setAllFilters] = useState(filters);
 
 	// Infinite Scroll State Variables
 	const [index, setIndex] = useState(INFINITE_SCROLL_STEP);
@@ -94,7 +95,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 
 	return (
 		<section className="px-4">
-			<Header search={{ handleSearchTermChange, searchTerm }} filters={{ filters, addFilter, removeFilter }} />
+			<Header search={{ handleSearchTermChange, searchTerm }} filters={{ filters: allFilters, addFilter, removeFilter }} />
 			<div className="flex flex-row mt-3 justify-between">
 				<Results total={resultsTotal.toLocaleString("en-US")} />
 				<ActiveFilters activeOptions={activeFilters} removeFilter={removeFilter} />
