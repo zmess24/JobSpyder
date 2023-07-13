@@ -44,7 +44,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 		setActiveFilters(filters);
 
 		// Update Filter Options List
-		let industryIndex = allFilters.findIndex((o) => o.id == type);
+		let industryIndex = allFilters.findIndex((o) => o.id === type);
 		let optionIndex = allFilters[industryIndex].options.findIndex((o) => o.value === value);
 		allFilters[industryIndex].options[optionIndex].checked = !allFilters[industryIndex].options[optionIndex].checked;
 		setAllFilters(allFilters);
@@ -66,7 +66,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 		// Update Filter Options List
 		debugger;
 
-		let industryIndex = allFilters.findIndex((o) => o.id == type);
+		let industryIndex = allFilters.findIndex((o) => o.id === type);
 		let optionIndex = allFilters[industryIndex].options.findIndex((o) => o.value === value);
 		allFilters[industryIndex].options[optionIndex].checked = !allFilters[industryIndex].options[optionIndex].checked;
 		setAllFilters(allFilters);
