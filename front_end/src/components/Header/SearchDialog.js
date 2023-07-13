@@ -139,7 +139,7 @@ export default function SearchDialog({ filters, addFilter, removeFilter }) {
 												leaveFrom="transform opacity-100 scale-100"
 												leaveTo="transform opacity-0 scale-95"
 											>
-												<Popover.Panel className="absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-white p-4 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
+												<Popover.Panel className="absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-white p-4 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none xs:w-full">
 													<form className="space-y-4 overflow-auto pt-1" style={{ maxHeight: "50vh" }}>
 														{section.options.map((option, optionIdx) => (
 															<div key={option.value} className="flex items-center">
