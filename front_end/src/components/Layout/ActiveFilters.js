@@ -24,7 +24,7 @@ export default function ActiveFilters({ activeOptions, removeFilter }) {
 								<span>{activeFilter.label}</span>
 								<button
 									type="button"
-									onClick={() => removeFilter(activeFilter.value)}
+									onClick={() => removeFilter(activeFilter.value, activeFilter.type)}
 									className={`ml-1 inline-flex h-4 w-4 flex-shrink-0 rounded-full p-1 ${
 										activeFilter.type === "industries" ? styles.industryTagExitColors : styles.departmentTagExitColors
 									}`}

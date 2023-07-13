@@ -4,6 +4,7 @@ import { useLoaderData, Await, defer, Outlet } from "react-router-dom";
 import { loadData } from "../../api";
 import LoadingItem from "./LoadingItem";
 import ListLayout from "./ListLayout";
+import { settingsObject } from "../../constants/data";
 
 export async function loader() {
 	let data = loadData();
@@ -34,7 +35,7 @@ export default function NavLayout() {
 							ListItemComponent={LoadingItem}
 							layoutCSS={layoutCSS}
 							searchKey={"title"}
-							settings={[]}
+							settings={settingsObject}
 						/>
 					}
 				>

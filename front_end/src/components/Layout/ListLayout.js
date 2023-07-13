@@ -17,16 +17,17 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 	const [searchTerm, setSearchTerm] = useState("");
 
 	// Industry Filter State Varibles
-	const [activeFilters, setactiveFilters] = useState(settings);
-	const [allFilters, setAllFilters] = useState(filters);
+	const [activeFilters, setActiveFilters] = useState(settings.activeFilters);
+	const [allFilters, setAllFilters] = useState(settings.allFilters);
 
 	// Infinite Scroll State Variables
 	const [index, setIndex] = useState(INFINITE_SCROLL_STEP);
 	const [scroll, setScroll] = useState(true);
 	const [dataToRender, setDataToRender] = useState(
-		settings.length > 0 ? filteredData.slice(0, INFINITE_SCROLL_STEP) : data.slice(0, INFINITE_SCROLL_STEP)
+		settings.activeFilters.length > 0 ? filteredData.slice(0, INFINITE_SCROLL_STEP) : data.slice(0, INFINITE_SCROLL_STEP)
 	);
 
+	// HELPER FUNCTIONS
 	const resetSearch = () => {
 		setSearchResults([]);
 		setSearchIndex(INFINITE_SCROLL_STEP);
@@ -40,12 +41,18 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 		if (filteredResults.length < INFINITE_SCROLL_STEP) setSearchScroll(false);
 		setDataToRender(filteredResults.slice(0, INFINITE_SCROLL_STEP));
 		setSearchResults(filteredResults);
+		setActiveFilters(filters);
 
-		setactiveFilters(filters);
-		if (settings) await saveInCache(filters);
+		// Update Filter Options List
+		let industryIndex = allFilters.findIndex((o) => o.id == type);
+		let optionIndex = allFilters[industryIndex].options.findIndex((o) => o.value === value);
+		allFilters[industryIndex].options[optionIndex].checked = !allFilters[industryIndex].options[optionIndex].checked;
+		setAllFilters(allFilters);
+
+		if (settings) await saveInCache({ activeFilters: filters, allFilters });
 	};
 
-	const removeFilter = async (value) => {
+	const removeFilter = async (value, type) => {
 		let filters = activeFilters.filter((a) => a.value !== value);
 		if (filters.length === 0 && searchTerm === "") {
 			resetSearch();
@@ -56,8 +63,17 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 			setSearchResults(filteredResults);
 		}
 
-		setactiveFilters(filters);
-		if (settings) await saveInCache(filters);
+		// Update Filter Options List
+		debugger;
+
+		let industryIndex = allFilters.findIndex((o) => o.id == type);
+		let optionIndex = allFilters[industryIndex].options.findIndex((o) => o.value === value);
+		allFilters[industryIndex].options[optionIndex].checked = !allFilters[industryIndex].options[optionIndex].checked;
+		setAllFilters(allFilters);
+
+		setActiveFilters(filters);
+		if (settings) await saveInCache({ activeFilters: filters, allFilters });
+		// if (settings) await saveInCache(filters);
 	};
 
 	// Filter State Varialbes

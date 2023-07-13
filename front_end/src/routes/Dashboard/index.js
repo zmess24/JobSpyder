@@ -13,9 +13,16 @@ export default function Dashboard() {
 		JobSpyderData: { roles, filters, settings },
 	} = useOutletContext();
 
-	if (settings.length > 0) {
-		filteredData = filterResults({ searchTerm: "", searchKey: "title", filters: settings, filterKey: "industries", dataSet: roles });
+	if (settings.activeFilters.length > 0) {
+		filteredData = filterResults({
+			searchTerm: "",
+			searchKey: "title",
+			filters: settings.activeFilters,
+			dataSet: roles,
+		});
 	}
+
+	debugger;
 
 	return (
 		<ListLayout
@@ -25,7 +32,7 @@ export default function Dashboard() {
 			ListItemComponent={RoleItem}
 			layoutCSS={styles.rolesLayout}
 			searchKey={"title"}
-			settings={settings ? settings : []}
+			settings={settings ? settings : { activeFilters: [], allFilters: [] }}
 		/>
 	);
 }

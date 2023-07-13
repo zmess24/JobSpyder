@@ -12,7 +12,6 @@ function classNames(...classes) {
 export default function CategoryFilter({ filters }) {
 	const [open, setOpen] = useState(false);
 
-	debugger;
 	let options = filters.map((filter) => {
 		return { value: filter, label: filter, checked: false };
 	});

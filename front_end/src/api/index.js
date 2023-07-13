@@ -1,6 +1,7 @@
 import moment from "moment";
 import localforage from "localforage";
 import axios from "axios";
+import { filterOptionObject, settingsObject } from "../constants/data";
 
 /**
 |--------------------------------------------------
@@ -39,7 +40,7 @@ async function loadFromCache() {
 	let rawData = await localforage.getItem(CACHE_DATA_KEY);
 	let data = JSON.parse(rawData);
 	let settings = await loadCachedSettings();
-	settings = !settings ? [] : settings;
+	settings = settings ? settings : settingsObject;
 	return { ...data, settings };
 }
 
@@ -80,7 +81,6 @@ async function loadFromApi(today_date) {
 		});
 	});
 
-	debugger;
 	// Sort Filter Options Alphabetically
 	industry_options.sort(sortFilterOptions);
 	department_options.sort(sortFilterOptions);
@@ -92,7 +92,7 @@ async function loadFromApi(today_date) {
 	await localforage.setItem(CACHE_DATA_KEY, JSON.stringify(data));
 	await localforage.setItem(CACHE_LAST_UPDATE_KEY, today_date);
 	let settings = await loadCachedSettings();
-	settings = !settings ? [] : settings;
+	settings = !settings ? settingsObject : settings;
 	return { ...data, settings };
 }
 
