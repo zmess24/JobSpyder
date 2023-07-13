@@ -22,15 +22,17 @@ export default function Dashboard() {
 		});
 	}
 
+	debugger;
+
 	return (
 		<ListLayout
 			data={roles}
 			filteredData={filteredData}
-			filters={filters}
 			ListItemComponent={RoleItem}
 			layoutCSS={styles.rolesLayout}
 			searchKey={"title"}
-			settings={settings ? settings : { activeFilters: [], allFilters: [] }}
+			settings={settings ? settings : { activeFilters: [], allFilters: filters }}
+			cacheOn={true}
 		/>
 	);
 }

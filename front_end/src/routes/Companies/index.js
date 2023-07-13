@@ -17,9 +17,9 @@ export default function Companies() {
 			data={companies}
 			ListItemComponent={CompanyItem}
 			layoutCSS={styles.companiesLayout}
-			filters={[filter]}
 			searchKey={"name"}
-			settings={[]}
+			settings={{ activeFilters: [], allFilters: [filter] }}
+			cacheOn={false}
 		/>
 	);
 }

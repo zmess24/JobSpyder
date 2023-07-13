@@ -40,7 +40,7 @@ async function loadFromCache() {
 	let rawData = await localforage.getItem(CACHE_DATA_KEY);
 	let data = JSON.parse(rawData);
 	let settings = await loadCachedSettings();
-	settings = settings ? settings : settingsObject;
+	settings = settings ? settings : { activeFilters: [], allFilters: [] };
 	return { ...data, settings };
 }
 

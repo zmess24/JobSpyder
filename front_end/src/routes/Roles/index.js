@@ -14,11 +14,11 @@ export default function Roles() {
 		<ListLayout
 			data={roles}
 			filteredData={[]}
-			filters={filters}
 			ListItemComponent={RoleItem}
 			layoutCSS={styles.rolesLayout}
 			searchKey={"title"}
-			settings={[]}
+			settings={{ activeFilters: [], allFilters: filters }}
+			cacheOn={false}
 		/>
 	);
 }

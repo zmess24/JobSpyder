@@ -6,7 +6,7 @@ import Header from "../Header";
 import { saveInCache } from "../../api";
 import { filterResults } from "../../constants/utlitiies";
 
-export default function ListLayout({ data, ListItemComponent, layoutCSS, filters, settings, filteredData, searchKey }) {
+export default function ListLayout({ data, ListItemComponent, layoutCSS, settings, filteredData, searchKey }) {
 	const INFINITE_SCROLL_STEP = 24;
 	const [allData] = useState(data);
 
