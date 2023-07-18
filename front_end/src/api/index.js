@@ -11,7 +11,7 @@ import { filterOptionObject, settingsObject } from "../constants/data";
 
 const CACHE_LAST_UPDATE_KEY = "jobspyder_last_update";
 const CACHE_DATA_KEY = "jobspyder_cache";
-const CACHE_SETTINGS_KEY = "jobspyder_settings_cache";
+const CACHE_ACTIVE_FILTERS = "jobspyder_active_filters";
 
 /**
 |--------------------------------------------------
@@ -19,9 +19,10 @@ const CACHE_SETTINGS_KEY = "jobspyder_settings_cache";
 |--------------------------------------------------
 */
 
-const loadCachedSettings = async () => {
-	let settings = await localforage.getItem(CACHE_SETTINGS_KEY);
-	return JSON.parse(settings);
+const loadSavedFilters = async () => {
+	let activeFilters = await localforage.getItem(CACHE_ACTIVE_FILTERS);
+	activeFilters = JSON.parse(activeFilters);
+	return activeFilters;
 };
 
 const sortFilterOptions = (a, b) => {
@@ -39,9 +40,10 @@ const sortFilterOptions = (a, b) => {
 async function loadFromCache() {
 	let rawData = await localforage.getItem(CACHE_DATA_KEY);
 	let data = JSON.parse(rawData);
-	let settings = await loadCachedSettings();
-	settings = settings ? settings : { activeFilters: [], allFilters: [] };
-	return { ...data, settings };
+	let activeFilters = await loadSavedFilters();
+	debugger;
+	activeFilters = activeFilters ? activeFilters : [];
+	return { ...data, activeFilters };
 }
 
 async function loadFromApi(today_date) {
@@ -91,7 +93,7 @@ async function loadFromApi(today_date) {
 
 	await localforage.setItem(CACHE_DATA_KEY, JSON.stringify(data));
 	await localforage.setItem(CACHE_LAST_UPDATE_KEY, today_date);
-	let settings = await loadCachedSettings();
+	let settings = await loadSavedFilters();
 	settings = settings ? settings : { activeFilters: [], allFilters: [industries, departments] };
 	return { ...data, settings };
 }
@@ -102,6 +104,7 @@ export async function loadData() {
 	return today_date === last_update ? await loadFromCache() : await loadFromApi(today_date);
 }
 
-export async function saveInCache(settings) {
-	await localforage.setItem(CACHE_SETTINGS_KEY, JSON.stringify(settings));
+export async function saveInCache(activeFilters) {
+	debugger;
+	await localforage.setItem(CACHE_ACTIVE_FILTERS, JSON.stringify(activeFilters));
 }

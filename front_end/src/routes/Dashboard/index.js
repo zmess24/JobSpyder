@@ -4,25 +4,25 @@ import { useOutletContext } from "react-router-dom";
 import RoleItem from "../Roles/RoleItem";
 import ListLayout from "../../components/Layout/ListLayout";
 import styles from "../../constants/styles";
-import { filterResults } from "../../constants/utlitiies";
+import { filterResults, updateFilters } from "../../constants/utlitiies";
 
 export default function Dashboard() {
 	let filteredData = [];
 
 	let {
-		JobSpyderData: { roles, filters, settings },
+		JobSpyderData: { roles, filters, activeFilters },
 	} = useOutletContext();
 
-	if (settings.activeFilters.length > 0) {
+	if (activeFilters.length > 0) {
 		filteredData = filterResults({
 			searchTerm: "",
 			searchKey: "title",
-			filters: settings.activeFilters,
+			filters: activeFilters,
 			dataSet: roles,
 		});
-	}
 
-	debugger;
+		filters = updateFilters({ activeFilters, allFilters: filters });
+	}
 
 	return (
 		<ListLayout
@@ -31,7 +31,8 @@ export default function Dashboard() {
 			ListItemComponent={RoleItem}
 			layoutCSS={styles.rolesLayout}
 			searchKey={"title"}
-			settings={settings ? settings : { activeFilters: [], allFilters: filters }}
+			filters={filters}
+			cachedFilters={activeFilters}
 			cacheOn={true}
 		/>
 	);

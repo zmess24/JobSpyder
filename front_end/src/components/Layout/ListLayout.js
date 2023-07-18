@@ -4,9 +4,9 @@ import Results from "./Results";
 import ActiveFilters from "./ActiveFilters";
 import Header from "../Header";
 import { saveInCache } from "../../api";
-import { filterResults } from "../../constants/utlitiies";
+import { filterResults, updateFilters } from "../../constants/utlitiies";
 
-export default function ListLayout({ data, ListItemComponent, layoutCSS, settings, filteredData, searchKey }) {
+export default function ListLayout({ data, ListItemComponent, layoutCSS, filters, cachedFilters, filteredData, searchKey, cacheOn }) {
 	const INFINITE_SCROLL_STEP = 24;
 	const [allData] = useState(data);
 
@@ -17,14 +17,14 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, setting
 	const [searchTerm, setSearchTerm] = useState("");
 
 	// Industry Filter State Varibles
-	const [activeFilters, setActiveFilters] = useState(settings.activeFilters);
-	const [allFilters, setAllFilters] = useState(settings.allFilters);
+	const [activeFilters, setActiveFilters] = useState(cachedFilters);
+	const [allFilters, setAllFilters] = useState(filters);
 
 	// Infinite Scroll State Variables
 	const [index, setIndex] = useState(INFINITE_SCROLL_STEP);
 	const [scroll, setScroll] = useState(true);
 	const [dataToRender, setDataToRender] = useState(
-		settings.activeFilters.length > 0 ? filteredData.slice(0, INFINITE_SCROLL_STEP) : data.slice(0, INFINITE_SCROLL_STEP)
+		cachedFilters.length > 0 ? filteredData.slice(0, INFINITE_SCROLL_STEP) : data.slice(0, INFINITE_SCROLL_STEP)
 	);
 
 	// HELPER FUNCTIONS
@@ -34,30 +34,25 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, setting
 		setDataToRender(allData.slice(0, index));
 	};
 
-	const updateAllFilters = (value, type) => {
-		let industryIndex = allFilters.findIndex((o) => o.id === type);
-		let optionIndex = allFilters[industryIndex].options.findIndex((o) => o.value === value);
-		allFilters[industryIndex].options[optionIndex].checked = !allFilters[industryIndex].options[optionIndex].checked;
-		setAllFilters(allFilters);
-		return allFilters;
-	};
-
 	// Handle Filter Change
 	const addFilter = async (value, type) => {
 		let filters = [...activeFilters, { value, label: value, type }];
 		let filteredResults = filterResults({ searchTerm, searchKey, filters, dataSet: allData });
-		let updatedAllFilters = updateAllFilters(value, type);
+		let updatedFilters = updateFilters({ activeFilters: filters, allFilters });
 		if (filteredResults.length < INFINITE_SCROLL_STEP) setSearchScroll(false);
 		setDataToRender(filteredResults.slice(0, INFINITE_SCROLL_STEP));
 		setSearchResults(filteredResults);
 		setActiveFilters(filters);
+		setAllFilters(updatedFilters);
 
-		if (settings) await saveInCache({ activeFilters: filters, allFilters: updatedAllFilters });
+		if (cacheOn) await saveInCache(filters);
 	};
 
 	const removeFilter = async (value, type) => {
 		let filters = activeFilters.filter((a) => a.value !== value);
-		let updatedAllFilters = updateAllFilters(value, type);
+		let updatedFilters = updateFilters({ activeFilters: filters, allFilters });
+		setAllFilters(updatedFilters);
+
 		if (filters.length === 0 && searchTerm === "") {
 			resetSearch();
 		} else {
@@ -68,7 +63,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, setting
 		}
 
 		setActiveFilters(filters);
-		if (settings) await saveInCache({ activeFilters: filters, allFilters: updatedAllFilters });
+		if (cacheOn) await saveInCache(filters);
 	};
 
 	// Filter State Varialbes
@@ -105,6 +100,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, setting
 	let scrollState = searchTerm || activeFilters.length > 0 ? searchScroll : scroll;
 	let resultsTotal = searchTerm || activeFilters.length > 0 ? searchResults.length : allData.length;
 
+	debugger;
 	return (
 		<section className="px-4">
 			<Header search={{ handleSearchTermChange, searchTerm }} filters={{ filters: allFilters, addFilter, removeFilter }} />

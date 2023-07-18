@@ -54,3 +54,13 @@ export function filterResults({ searchTerm, searchKey, filters, dataSet }) {
 
 	return arrayRef;
 }
+
+export const updateFilters = ({ activeFilters, allFilters }) => {
+	activeFilters.forEach((f) => {
+		let industryIndex = allFilters.findIndex((o) => o.id === f.type);
+		let optionIndex = allFilters[industryIndex].options.findIndex((o) => o.value === f.value);
+		allFilters[industryIndex].options[optionIndex].checked = !allFilters[industryIndex].options[optionIndex].checked;
+	});
+
+	return allFilters;
+};

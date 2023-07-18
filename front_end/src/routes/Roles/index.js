@@ -18,7 +18,6 @@ export default function Roles() {
 			layoutCSS={styles.rolesLayout}
 			searchKey={"title"}
 			settings={{ activeFilters: [], allFilters: filters }}
-			cacheOn={false}
 		/>
 	);
 }
