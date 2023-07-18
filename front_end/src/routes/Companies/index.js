@@ -10,16 +10,17 @@ export default function Companies() {
 		JobSpyderData: { companies, filters },
 	} = useOutletContext();
 
-	let filter = filters.find((filter) => filter.id === "industries");
+	let companyFilter = filters.find((filter) => filter.id === "industries");
 
 	return (
 		<ListLayout
 			data={companies}
+			filteredData={[]}
 			ListItemComponent={CompanyItem}
 			layoutCSS={styles.companiesLayout}
 			searchKey={"name"}
-			settings={{ activeFilters: [], allFilters: [filter] }}
-			cacheOn={false}
+			filters={[companyFilter]}
+			cachedFilters={[]}
 		/>
 	);
 }

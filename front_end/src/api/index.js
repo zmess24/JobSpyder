@@ -41,7 +41,6 @@ async function loadFromCache() {
 	let rawData = await localforage.getItem(CACHE_DATA_KEY);
 	let data = JSON.parse(rawData);
 	let activeFilters = await loadSavedFilters();
-	debugger;
 	activeFilters = activeFilters ? activeFilters : [];
 	return { ...data, activeFilters };
 }
@@ -91,11 +90,14 @@ async function loadFromApi(today_date) {
 	let departments = { id: "departments", name: "Departments", options: department_options };
 	let data = { companies: res.data.companies, roles, filters: [industries, departments] };
 
+	// Set Cache
 	await localforage.setItem(CACHE_DATA_KEY, JSON.stringify(data));
 	await localforage.setItem(CACHE_LAST_UPDATE_KEY, today_date);
-	let settings = await loadSavedFilters();
-	settings = settings ? settings : { activeFilters: [], allFilters: [industries, departments] };
-	return { ...data, settings };
+
+	// Load Saved Filters
+	let activeFilters = await loadSavedFilters();
+	activeFilters = activeFilters ? activeFilters : [];
+	return { ...data, activeFilters };
 }
 
 export async function loadData() {

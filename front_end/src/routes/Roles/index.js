@@ -12,12 +12,19 @@ export default function Roles() {
 
 	return (
 		<ListLayout
+			// data={roles}
+			// filteredData={[]}
+			// ListItemComponent={RoleItem}
+			// layoutCSS={styles.rolesLayout}
+			// searchKey={"title"}
+			// settings={{ activeFilters: [], allFilters: filters }}
 			data={roles}
 			filteredData={[]}
 			ListItemComponent={RoleItem}
 			layoutCSS={styles.rolesLayout}
 			searchKey={"title"}
-			settings={{ activeFilters: [], allFilters: filters }}
+			filters={filters}
+			cachedFilters={[]}
 		/>
 	);
 }
