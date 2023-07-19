@@ -18,7 +18,9 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 
 	// Industry Filter State Varibles
 	const [activeFilters, setActiveFilters] = useState(cachedFilters);
-	const [allFilters, setAllFilters] = useState(filters);
+	const [allFilters, setAllFilters] = useState(
+		cachedFilters.length > 0 ? updateFilters({ activeFilters: cachedFilters, allFilters: filters }) : filters
+	);
 
 	// Infinite Scroll State Variables
 	const [index, setIndex] = useState(INFINITE_SCROLL_STEP);

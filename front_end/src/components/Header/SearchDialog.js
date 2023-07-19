@@ -11,7 +11,6 @@ function classNames(...classes) {
 export default function SearchDialog({ filters, addFilter, removeFilter }) {
 	const [open, setOpen] = useState(false);
 	const handleClick = (e, value, type) => {
-		debugger;
 		e.target.checked === false ? removeFilter(value, type) : addFilter(value, type);
 	};
 

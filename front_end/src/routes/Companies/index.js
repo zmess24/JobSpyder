@@ -10,7 +10,10 @@ export default function Companies() {
 		JobSpyderData: { companies, filters },
 	} = useOutletContext();
 
-	let companyFilter = filters.find((filter) => filter.id === "industries");
+	let copiedFilters = JSON.parse(JSON.stringify(filters));
+	let companyFilter = copiedFilters.find((filter) => filter.id === "industries");
+
+	debugger;
 
 	return (
 		<ListLayout

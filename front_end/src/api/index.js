@@ -19,12 +19,6 @@ const CACHE_ACTIVE_FILTERS = "jobspyder_active_filters";
 |--------------------------------------------------
 */
 
-const loadSavedFilters = async () => {
-	let activeFilters = await localforage.getItem(CACHE_ACTIVE_FILTERS);
-	activeFilters = JSON.parse(activeFilters);
-	return activeFilters;
-};
-
 const sortFilterOptions = (a, b) => {
 	let aValue = a.value.split(" ")[0].toUpperCase();
 	let bValue = b.value.split(" ")[0].toUpperCase();
@@ -109,4 +103,10 @@ export async function loadData() {
 export async function saveInCache(activeFilters) {
 	debugger;
 	await localforage.setItem(CACHE_ACTIVE_FILTERS, JSON.stringify(activeFilters));
+}
+
+export async function loadSavedFilters() {
+	let activeFilters = await localforage.getItem(CACHE_ACTIVE_FILTERS);
+	activeFilters = JSON.parse(activeFilters);
+	return activeFilters;
 }
