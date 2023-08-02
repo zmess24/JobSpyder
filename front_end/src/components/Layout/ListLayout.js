@@ -13,9 +13,10 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 	// Search State Varibles
 	const [searchResults, setSearchResults] = useState(filteredData);
 	const [searchIndex, setSearchIndex] = useState(INFINITE_SCROLL_STEP);
-	const [searchScroll, setSearchScroll] = useState(filteredData > INFINITE_SCROLL_STEP ? true : false);
+	const [searchScroll, setSearchScroll] = useState(true);
 	const [searchTerm, setSearchTerm] = useState("");
 
+	debugger;
 	// Industry Filter State Varibles
 	const [activeFilters, setActiveFilters] = useState(cachedFilters);
 	const [allFilters, setAllFilters] = useState(
@@ -41,7 +42,8 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 		let filters = [...activeFilters, { value, label: value, type }];
 		let filteredResults = filterResults({ searchTerm, searchKey, filters, dataSet: allData });
 		let updatedFilters = updateFilters({ activeFilters: filters, allFilters });
-		if (filteredResults.length < INFINITE_SCROLL_STEP) setSearchScroll(false);
+		filteredResults.length < INFINITE_SCROLL_STEP ? setSearchScroll(false) : setSearchScroll(true);
+		debugger;
 		setDataToRender(filteredResults.slice(0, INFINITE_SCROLL_STEP));
 		setSearchResults(filteredResults);
 		setActiveFilters(filters);
@@ -54,12 +56,13 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 		let filters = activeFilters.filter((a) => a.value !== value);
 		let updatedFilters = updateFilters({ activeFilters: filters, allFilters });
 		setAllFilters(updatedFilters);
-
+		debugger;
 		if (filters.length === 0 && searchTerm === "") {
 			resetSearch();
 		} else {
 			let filteredResults = filterResults({ searchTerm, searchKey, filters, dataSet: allData });
-			if (filteredResults.length < INFINITE_SCROLL_STEP) setSearchScroll(false);
+			debugger;
+			filteredResults.length < INFINITE_SCROLL_STEP ? setSearchScroll(false) : setSearchScroll(true);
 			setDataToRender(filteredResults.slice(0, INFINITE_SCROLL_STEP));
 			setSearchResults(filteredResults);
 		}
@@ -74,6 +77,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 			setSearchIndex(searchIndex + INFINITE_SCROLL_STEP);
 			let dataToRenderList = searchResults.slice(0, searchIndex + INFINITE_SCROLL_STEP);
 			setDataToRender(dataToRenderList);
+			debugger;
 			if (dataToRenderList.length === searchResults.length) setSearchScroll(false);
 		} else {
 			setIndex(index + INFINITE_SCROLL_STEP);
@@ -110,7 +114,7 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 				<Results total={resultsTotal.toLocaleString("en-US")} />
 				<ActiveFilters activeOptions={activeFilters} removeFilter={removeFilter} />
 			</div>
-			<InfiniteScroll dataLength={dataToRender.length} next={loadData} hasMore={scrollState} loader={<p>Loading...</p>}>
+			<InfiniteScroll dataLength={dataToRender.length} next={loadData} hasMore={scrollState} loader={<span>...</span>}>
 				<ul className={layoutCSS}>
 					{dataToRender &&
 						dataToRender.map((role) => {
