@@ -16,7 +16,6 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 	const [searchScroll, setSearchScroll] = useState(true);
 	const [searchTerm, setSearchTerm] = useState("");
 
-	debugger;
 	// Industry Filter State Varibles
 	const [activeFilters, setActiveFilters] = useState(cachedFilters);
 	const [allFilters, setAllFilters] = useState(
@@ -43,7 +42,6 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 		let filteredResults = filterResults({ searchTerm, searchKey, filters, dataSet: allData });
 		let updatedFilters = updateFilters({ activeFilters: filters, allFilters });
 		filteredResults.length < INFINITE_SCROLL_STEP ? setSearchScroll(false) : setSearchScroll(true);
-		debugger;
 		setDataToRender(filteredResults.slice(0, INFINITE_SCROLL_STEP));
 		setSearchResults(filteredResults);
 		setActiveFilters(filters);
@@ -56,12 +54,10 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 		let filters = activeFilters.filter((a) => a.value !== value);
 		let updatedFilters = updateFilters({ activeFilters: filters, allFilters });
 		setAllFilters(updatedFilters);
-		debugger;
 		if (filters.length === 0 && searchTerm === "") {
 			resetSearch();
 		} else {
 			let filteredResults = filterResults({ searchTerm, searchKey, filters, dataSet: allData });
-			debugger;
 			filteredResults.length < INFINITE_SCROLL_STEP ? setSearchScroll(false) : setSearchScroll(true);
 			setDataToRender(filteredResults.slice(0, INFINITE_SCROLL_STEP));
 			setSearchResults(filteredResults);
@@ -77,7 +73,6 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 			setSearchIndex(searchIndex + INFINITE_SCROLL_STEP);
 			let dataToRenderList = searchResults.slice(0, searchIndex + INFINITE_SCROLL_STEP);
 			setDataToRender(dataToRenderList);
-			debugger;
 			if (dataToRenderList.length === searchResults.length) setSearchScroll(false);
 		} else {
 			setIndex(index + INFINITE_SCROLL_STEP);
@@ -106,7 +101,6 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 	let scrollState = searchTerm || activeFilters.length > 0 ? searchScroll : scroll;
 	let resultsTotal = searchTerm || activeFilters.length > 0 ? searchResults.length : allData.length;
 
-	debugger;
 	return (
 		<section className="px-4">
 			<Header search={{ handleSearchTermChange, searchTerm }} filters={{ filters: allFilters, addFilter, removeFilter }} />
