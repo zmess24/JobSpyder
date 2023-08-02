@@ -16,6 +16,7 @@ export default function Company() {
 	let companyId = "_" + window.location.pathname.split("_")[1];
 	let company = companies.find((c) => c._id === companyId);
 
+	debugger;
 	if (!company) return <ErrorPage />;
 
 	return (
@@ -23,11 +24,12 @@ export default function Company() {
 			<CompanyHeader company={company} />
 			<ListLayout
 				data={company.open_roles}
+				filteredData={[]}
 				ListItemComponent={RoleItem}
 				layoutCSS={styles.rolesLayout}
-				filters={[filter]}
 				searchKey={"title"}
-				settings={[]}
+				filters={[filter]}
+				cachedFilters={[]}
 			/>
 		</>
 	);
