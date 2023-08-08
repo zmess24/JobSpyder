@@ -4,7 +4,6 @@ import { useLoaderData, Await, defer, Outlet } from "react-router-dom";
 import { loadData } from "../../api";
 import LoadingItem from "./LoadingItem";
 import ListLayout from "./ListLayout";
-import { settingsObject } from "../../constants/data";
 
 export async function loader() {
 	let data = loadData();
@@ -18,10 +17,7 @@ export default function NavLayout() {
 	const data = useLoaderData();
 	const layoutCSS = "grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 mt-5 pb-10";
 	const fakeArray = Array(24).fill(0);
-	let fakeFilters = [
-		{ id: "industries", name: "Industries", options: fakeArray },
-		{ id: "departments", name: "Filters", options: fakeArray },
-	];
+	let fakeFilters = [{ id: "industries", name: "Industries", options: fakeArray }];
 
 	return (
 		<div className="bg-gray-100 min-h-screen">
