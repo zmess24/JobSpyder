@@ -25,6 +25,12 @@ const sortFilterOptions = (a, b) => {
 	return aValue > bValue ? 1 : -1;
 };
 
+export async function loadSavedFilters() {
+	let results = await localforage.getItem(CACHE_ACTIVE_FILTERS);
+	let activeFilters = results ? JSON.parse(results) : [];
+	return activeFilters;
+}
+
 /**
 |--------------------------------------------------
 | Main API Functions
@@ -35,7 +41,6 @@ async function loadFromCache() {
 	let rawData = await localforage.getItem(CACHE_DATA_KEY);
 	let data = JSON.parse(rawData);
 	let activeFilters = await loadSavedFilters();
-	activeFilters = activeFilters ? activeFilters : [];
 	return { ...data, activeFilters };
 }
 
@@ -43,24 +48,10 @@ async function loadFromApi(today_date) {
 	let res = await axios.get("/api/v1/companies/");
 	let roles = [];
 	let industry_options = [];
-	let department_options = [];
-	let location_options = [];
 
 	res.data.companies.forEach((company) => {
 		// Create Roles & Departmetns List
 		company.open_roles.forEach((role) => {
-			let found = department_options.find(({ value }) => value === role.department);
-			if (!found && role.department !== "") {
-				let object = { value: role.department, label: role.department, checked: false };
-				department_options.push(object);
-			}
-
-			let location = location_options.find(({ value }) => value === role.location);
-			if (!location && role.location !== "") {
-				let object = { value: role.location, label: role.location, checked: false };
-				location_options.push(object);
-			}
-
 			role = Object.assign(role, { company: company.name, logo: company.logo, industries: company.industries });
 			roles.push(role);
 		});
@@ -78,10 +69,8 @@ async function loadFromApi(today_date) {
 
 	// Sort Filter Options Alphabetically
 	industry_options.sort(sortFilterOptions);
-	department_options.sort(sortFilterOptions);
 
 	let industries = { id: "industries", name: "Industries", options: industry_options };
-	let departments = { id: "departments", name: "Departments", options: department_options };
 	let data = { companies: res.data.companies, roles, filters: [industries] };
 
 	// Set Cache
@@ -97,17 +86,9 @@ async function loadFromApi(today_date) {
 export async function loadData() {
 	let today_date = moment().format("YYYY-MM-DD");
 	let last_update = await localforage.getItem(CACHE_LAST_UPDATE_KEY);
-	// return today_date === last_update ? await loadFromCache() : await loadFromApi(today_date);
-	return await loadFromApi(today_date);
+	return today_date === last_update ? await loadFromCache() : await loadFromApi(today_date);
 }
 
 export async function saveInCache(activeFilters) {
-	debugger;
 	await localforage.setItem(CACHE_ACTIVE_FILTERS, JSON.stringify(activeFilters));
-}
-
-export async function loadSavedFilters() {
-	let activeFilters = await localforage.getItem(CACHE_ACTIVE_FILTERS);
-	activeFilters = JSON.parse(activeFilters);
-	return activeFilters;
 }

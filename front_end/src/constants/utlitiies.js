@@ -5,14 +5,23 @@
 */
 
 const splitFiltersByType = (filters) => {
-	let departments = [];
+	let searchTerms = [];
 	let industries = [];
 
 	filters.forEach((filterObj) => {
-		filterObj.type === "departments" ? departments.push(filterObj) : industries.push(filterObj);
+		switch (filterObj.type) {
+			case "industries":
+				industries.push(filterObj);
+				break;
+			case "search":
+				searchTerms.push(filterObj);
+				break;
+			default:
+				break;
+		}
 	});
 
-	return { departments, industries };
+	return { searchTerms, industries };
 };
 
 /**
@@ -34,16 +43,15 @@ export function filterResults({ searchTerm, searchKey, filters, dataSet }) {
 
 	let arrays = sliceIntoChunks(dataSet, 100);
 	let arrayRef = [];
-	let { departments, industries } = splitFiltersByType(filters);
+	let { industries, searchTerms } = splitFiltersByType(filters);
 
 	arrays.forEach((array) => {
 		let results = array.filter((data) => {
 			let formatted_role = data[searchKey].toLowerCase().replace(/ /g, "");
 			if (filters.length > 0) {
 				let industryFound = industries.length > 0 ? industries.find(({ value }) => data.industries.indexOf(value) > -1) : true;
-				let departmentFound = departments.length > 0 ? departments.find(({ value }) => data.department === value) : true;
-
-				return industryFound && departmentFound ? formatted_role.indexOf(searchTerm) > -1 : false;
+				return industryFound ? searchTerms.find(({ value }) => formatted_role.indexOf(value) > -1) : false;
+				// return industryFound && departmentFound ? formatted_role.indexOf(searchTerm) > -1 : false;
 			} else {
 				return formatted_role.indexOf(searchTerm) > -1;
 			}
@@ -60,9 +68,11 @@ export const updateFilters = ({ activeFilters, allFilters }) => {
 	let copiedFilters = JSON.parse(JSON.stringify(allFilters));
 
 	activeFilters.forEach((f) => {
-		let industryIndex = copiedFilters.findIndex((o) => o.id === f.type);
-		let optionIndex = copiedFilters[industryIndex].options.findIndex((o) => o.value === f.value);
-		copiedFilters[industryIndex].options[optionIndex].checked = !copiedFilters[industryIndex].options[optionIndex].checked;
+		if (f.type !== "search") {
+			let industryIndex = copiedFilters.findIndex((o) => o.id === f.type);
+			let optionIndex = copiedFilters[industryIndex].options.findIndex((o) => o.value === f.value);
+			copiedFilters[industryIndex].options[optionIndex].checked = !copiedFilters[industryIndex].options[optionIndex].checked;
+		}
 	});
 
 	return copiedFilters;

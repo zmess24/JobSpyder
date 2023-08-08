@@ -97,13 +97,23 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 		}
 	};
 
+	const saveSearchTerm = async () => {
+		if (searchTerm === "") return;
+		let newFilter = { value: searchTerm.toLowerCase().replace(/ /g, ""), label: searchTerm, type: "search" };
+		let filters = [...activeFilters, newFilter];
+		setSearchTerm("");
+		setActiveFilters(filters);
+
+		if (cacheOn) await saveInCache(filters);
+	};
+
 	// Chose which results list to use depending on if there is an active search
 	let scrollState = searchTerm || activeFilters.length > 0 ? searchScroll : scroll;
 	let resultsTotal = searchTerm || activeFilters.length > 0 ? searchResults.length : allData.length;
 
 	return (
 		<section className="px-4">
-			<Header search={{ handleSearchTermChange, searchTerm }} filters={{ filters: allFilters, addFilter, removeFilter }} />
+			<Header search={{ handleSearchTermChange, saveSearchTerm, searchTerm }} filters={{ filters: allFilters, addFilter, removeFilter }} />
 			<div className="flex flex-row mt-3 justify-between">
 				<Results total={resultsTotal.toLocaleString("en-US")} />
 				<ActiveFilters activeOptions={activeFilters} removeFilter={removeFilter} />
