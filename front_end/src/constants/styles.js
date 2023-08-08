@@ -4,7 +4,7 @@ const styles = {
 	industryFilterColor: "bg-blue-700 hover:bg-blue-600",
 	departmentFilterColor: "bg-green-700 hover:bg-green-600",
 	industryTagColors: "text-blue-700 border-blue-200 bg-blue-50",
-	departmentTagColors: "text-green-700 border-green-200 bg-green-50",
+	departmentTagColors: "text-green-700 border-green-300 bg-green-50",
 	industryTagExitColors: "text-blue-700 hover:bg-blue-100 hover:text-blue-900",
 	departmentTagExitColors: "text-green-700 hover:bg-green-100 hover:text-green-900",
 };

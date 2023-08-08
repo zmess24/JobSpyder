@@ -25,7 +25,7 @@ export default function Search({ handleChange, handleSubmit, searchTerm, placeho
 			</div>
 			<button
 				onClick={handleSubmit}
-				className="w-1/3 lg:w-1/5 ml-6 justify-center inline-flex items-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+				className="w-1/3 lg:w-1/5 ml-6 justify-center inline-flex items-center rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
 			>
 				Save Search
 			</button>
