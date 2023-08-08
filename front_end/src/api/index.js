@@ -1,7 +1,6 @@
 import moment from "moment";
 import localforage from "localforage";
 import axios from "axios";
-import { filterOptionObject, settingsObject } from "../constants/data";
 
 /**
 |--------------------------------------------------

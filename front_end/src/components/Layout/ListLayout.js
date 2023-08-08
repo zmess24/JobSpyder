@@ -85,12 +85,12 @@ export default function ListLayout({ data, ListItemComponent, layoutCSS, filters
 	const handleSearchTermChange = (e) => {
 		setSearchTerm(e.target.value);
 		setSearchScroll(true);
-		let searchTerm = e.target.value.toLowerCase().replace(/ /g, "");
-
+		let newFilter = { value: e.target.value.toLowerCase().replace(/ /g, ""), label: e.target.value, type: "search" };
+		let filters = [...activeFilters, newFilter];
 		if (e.target.value === "" && activeFilters.length === 0) {
 			resetSearch();
 		} else {
-			let filteredResults = filterResults({ searchTerm, searchKey, filters: activeFilters, dataSet: allData });
+			let filteredResults = filterResults({ searchKey, filters, dataSet: allData });
 			if (filteredResults.length < INFINITE_SCROLL_STEP) setSearchScroll(false);
 			setDataToRender(filteredResults.slice(0, INFINITE_SCROLL_STEP));
 			setSearchResults(filteredResults);
