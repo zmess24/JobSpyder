@@ -4,7 +4,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 export default function Search({ handleChange, searchTerm, placeholder }) {
 	return (
 		<div className="flex lg:flex-row justify-start sm:flex-row md:w-1/2 ">
-			<div className="w-4/5 max-w-lg lg:max-w-xs">
+			<div className="w-2/3 lg:w-4/5 max-w-lg lg:max-w-xs">
 				<label htmlFor="search" className="sr-only">
 					Search
 				</label>
@@ -25,7 +25,7 @@ export default function Search({ handleChange, searchTerm, placeholder }) {
 			</div>
 			<button
 				href="#"
-				className="w-1/5 ml-6 justify-center inline-flex items-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+				className="w-1/3 lg:w-1/5 ml-6 justify-center inline-flex items-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
 			>
 				Save Search
 			</button>
