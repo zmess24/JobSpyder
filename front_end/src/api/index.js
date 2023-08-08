@@ -82,7 +82,7 @@ async function loadFromApi(today_date) {
 
 	let industries = { id: "industries", name: "Industries", options: industry_options };
 	let departments = { id: "departments", name: "Departments", options: department_options };
-	let data = { companies: res.data.companies, roles, filters: [industries, departments] };
+	let data = { companies: res.data.companies, roles, filters: [industries] };
 
 	// Set Cache
 	await localforage.setItem(CACHE_DATA_KEY, JSON.stringify(data));
@@ -97,7 +97,8 @@ async function loadFromApi(today_date) {
 export async function loadData() {
 	let today_date = moment().format("YYYY-MM-DD");
 	let last_update = await localforage.getItem(CACHE_LAST_UPDATE_KEY);
-	return today_date === last_update ? await loadFromCache() : await loadFromApi(today_date);
+	// return today_date === last_update ? await loadFromCache() : await loadFromApi(today_date);
+	return await loadFromApi(today_date);
 }
 
 export async function saveInCache(activeFilters) {
